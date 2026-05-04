@@ -240,12 +240,14 @@ const QuizGameScreen = ({ audioManager, onExit, playerGender = 'guy' }) => {
                 </button>
 
                 <div className="flex flex-col items-center">
-                    <span className="text-[10px] uppercase tracking-[0.2em] text-white font-bold mb-1 shadow-black/50 drop-shadow-md bg-black/40 px-3 py-1 rounded-full backdrop-blur-sm border border-white/10">Time Remaining</span>
-                    <div className="relative px-6 py-2 bg-black/40 rounded-xl border border-white/10 backdrop-blur-md flex items-center gap-3">
-                        <img src="/stickman_assets/clock_stickman.svg" className={`w-8 h-8 filter invert opacity-80 ${quizTimer < 10 ? 'animate-bounce-subtle' : ''}`} alt="Timer" />
-                        <span className={`text-3xl font-black font-mono tracking-wider ${quizTimer < 10 ? 'text-red-400 drop-shadow-[0_0_10px_rgba(248,113,113,0.5)] animate-pulse' : 'text-white drop-shadow-md'}`}>
-                            00:{quizTimer.toString().padStart(2, '0')}
-                        </span>
+                    <div className="relative px-4 py-2 bg-black/40 rounded-2xl border border-white/10 backdrop-blur-md flex flex-col items-center shadow-2xl">
+                        <span className="text-[8px] uppercase tracking-[0.2em] text-white/60 font-black mb-1">Time Remaining</span>
+                        <div className="flex items-center gap-2">
+                            <img src="/stickman_assets/clock_stickman.svg" className={`w-6 h-6 md:w-8 md:h-8 filter invert opacity-80 ${quizTimer < 10 ? 'animate-bounce-subtle' : ''}`} alt="Timer" />
+                            <span className={`text-xl md:text-3xl font-black font-mono tracking-wider ${quizTimer < 10 ? 'text-red-400 drop-shadow-[0_0_10px_rgba(248,113,113,0.5)] animate-pulse' : 'text-white drop-shadow-md'}`}>
+                                00:{quizTimer.toString().padStart(2, '0')}
+                            </span>
+                        </div>
                     </div>
                 </div>
 
