@@ -19,8 +19,23 @@
   <!-- Top Card (White) -->
   <rect x="80" y="40" width="300" height="400" rx="40" fill="#ffffff" stroke="#0d9488" stroke-width="8"/>
   
-  <!-- "Empty Stickman" Asset - Enlarged Portrait Version (Moved to the Left) -->
-  <g transform="translate(40, 40) scale(4)">
+  <!-- The Two Realistic Sorting Boxes (Moved to Top) -->
+  <g transform="translate(110, 100)">
+    <!-- Box 1 (Left) -->
+    <g filter="url(#boxDepth)">
+      <rect x="0" y="5" width="110" height="60" rx="10" fill="#3d2b1f"/>
+      <rect x="10" y="10" width="90" height="40" rx="5" fill="url(#boxInside)"/>
+    </g>
+    
+    <!-- Box 2 (Right) -->
+    <g transform="translate(130, 0)" filter="url(#boxDepth)">
+      <rect x="0" y="5" width="110" height="60" rx="10" fill="#3d2b1f"/>
+      <rect x="10" y="10" width="90" height="40" rx="5" fill="url(#boxInside)"/>
+    </g>
+  </g>
+
+  <!-- "Empty Stickman" Asset - Enlarged Portrait Version (Moved to Bottom Left) -->
+  <g transform="translate(40, 240) scale(4)">
     <!-- Body (Cut halfway) -->
     <line x1="50" y1="35" x2="50" y2="55" stroke="#0d9488" stroke-width="3" stroke-linecap="round"/>
     <!-- Head -->
@@ -42,20 +57,5 @@
     <!-- Question Marks (Orange Accent) -->
     <path d="M30 15 Q35 10 35 15 Q35 20 32 22 M32 25 L32 26" stroke="#fbbf24" stroke-width="3" fill="none"/>
     <path d="M70 15 Q75 10 75 15 Q75 20 72 22 M72 25 L72 26" stroke="#fbbf24" stroke-width="3" fill="none"/>
-  </g>
-
-  <!-- The Two Realistic Sorting Boxes -->
-  <g transform="translate(110, 340)">
-    <!-- Box 1 (Left) -->
-    <g filter="url(#boxDepth)">
-      <rect x="0" y="5" width="110" height="60" rx="10" fill="#3d2b1f"/>
-      <rect x="10" y="10" width="90" height="40" rx="5" fill="url(#boxInside)"/>
-    </g>
-    
-    <!-- Box 2 (Right) -->
-    <g transform="translate(130, 0)" filter="url(#boxDepth)">
-      <rect x="0" y="5" width="110" height="60" rx="10" fill="#3d2b1f"/>
-      <rect x="10" y="10" width="90" height="40" rx="5" fill="url(#boxInside)"/>
-    </g>
   </g>
 </svg>
