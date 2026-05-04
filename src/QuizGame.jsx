@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { QUIZ_QUESTIONS } from './data/quizData';
 
-const QuizGameScreen = ({ audioManager, onExit, isPaused = false, playerGender = 'guy' }) => {
+const QuizGameScreen = ({ audioManager, onExit, playerGender = 'guy' }) => {
+    const [isPausedInternal, setIsPausedInternal] = useState(false);
     const [quizTimer, setQuizTimer] = useState(60);
     const [quizCards, setQuizCards] = useState({ deck: [], myth: [], fact: [] });
     const [dragPosition, setDragPosition] = useState({ x: 0, y: 0 });
@@ -25,7 +26,7 @@ const QuizGameScreen = ({ audioManager, onExit, isPaused = false, playerGender =
     }, []);
 
     useEffect(() => {
-        if (showResults || isPaused) return;
+        if (showResults || isPausedInternal) return;
 
         const timer = setInterval(() => {
             setQuizTimer(prev => {
@@ -42,10 +43,10 @@ const QuizGameScreen = ({ audioManager, onExit, isPaused = false, playerGender =
             });
         }, 1000);
         return () => clearInterval(timer);
-    }, [showResults, audioManager, isPaused]);
+    }, [showResults, audioManager, isPausedInternal]);
 
     const handleCardDragStart = (e, card, source) => {
-        if (isPaused) return;
+        if (isPausedInternal) return;
         
         // touch-none class on the element handles scroll prevention.
         // preventDefault() is removed to avoid "passive listener" errors in React.
@@ -248,7 +249,27 @@ const QuizGameScreen = ({ audioManager, onExit, isPaused = false, playerGender =
                     </div>
                 </div>
 
-                <div className="text-right w-[100px] flex justify-end">
+                <div className="text-right flex items-center justify-end gap-4 min-w-[120px]">
+                    <button
+                        onClick={() => setIsPausedInternal(!isPausedInternal)}
+                        className={`p-3 rounded-full transition-all duration-300 flex items-center justify-center ${
+                            isPausedInternal 
+                            ? 'bg-emerald-500 hover:bg-emerald-600 shadow-emerald-500/30' 
+                            : 'bg-white/20 hover:bg-white/30'
+                        } border border-white/20 shadow-lg`}
+                        title={isPausedInternal ? "Resume" : "Pause"}
+                    >
+                        {isPausedInternal ? (
+                            <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" />
+                            </svg>
+                        ) : (
+                            <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                            </svg>
+                        )}
+                    </button>
+
                     {isDeckEmpty && !showResults && (
                         <button
                             onClick={finishQuiz}
@@ -539,6 +560,35 @@ const QuizGameScreen = ({ audioManager, onExit, isPaused = false, playerGender =
                                 </div>
                             </div>
                         )}
+                    </div>
+                </div>
+            )}
+
+            {/* Pause Overlay */}
+            {isPausedInternal && (
+                <div className="absolute inset-0 z-[100] bg-slate-900/60 backdrop-blur-md flex flex-col items-center justify-center p-6 animate-fade-in">
+                    <div className="bg-white rounded-[3rem] p-8 md:p-12 max-w-sm w-full text-center shadow-2xl transform animate-scale-up">
+                        <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg className="w-10 h-10 text-indigo-600 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" />
+                            </svg>
+                        </div>
+                        <h2 className="text-3xl font-black text-slate-800 uppercase tracking-tight mb-2">Game Paused</h2>
+                        <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px] mb-8">Take a breath, then jump back in!</p>
+                        
+                        <button
+                            onClick={() => setIsPausedInternal(false)}
+                            className="w-full py-5 bg-indigo-600 text-white font-black uppercase tracking-[0.2em] rounded-2xl shadow-xl shadow-indigo-600/30 hover:bg-indigo-500 transition-all hover:-translate-y-1 active:scale-95"
+                        >
+                            Resume Game
+                        </button>
+
+                        <button
+                            onClick={onExit}
+                            className="mt-4 w-full py-4 text-slate-400 font-black uppercase tracking-widest text-[10px] hover:text-slate-600 transition-colors"
+                        >
+                            Quit Session
+                        </button>
                     </div>
                 </div>
             )}
