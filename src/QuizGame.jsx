@@ -91,53 +91,66 @@ const QuizGameScreen = ({ audioManager, onExit, isPaused = false, playerGender =
         if ((!isDragging && !isThrowing) || !activeDragCard) return;
 
         const timeElapsed = Date.now() - dragStartTime.current;
-        const moveX = dragPositionRef.current.x; // Read from Ref
-        const velocity = Math.abs(moveX) / (timeElapsed || 1); // px/ms
+        const moveX = dragPositionRef.current.x;
+        const moveY = dragPositionRef.current.y;
+        const velocityX = Math.abs(moveX) / (timeElapsed || 1);
+        const velocityY = Math.abs(moveY) / (timeElapsed || 1);
 
         let target = activeDragCard.source;
         let isFlick = false;
+        const isMobile = window.innerWidth < 768;
 
         // Logic for deck source (throwing cards from deck)
         if (activeDragCard.source === 'deck') {
-            // Flick threshold: >0.5 px/ms velocity AND moved at least 20px
-            if (velocity > 0.5 && Math.abs(moveX) > 20) {
-                isFlick = true;
-                if (moveX < 0) target = 'myth';
-                else target = 'fact';
+            if (isMobile) {
+                // Vertical sorting for mobile (Myth Top, Fact Bottom)
+                if (velocityY > 0.4 && Math.abs(moveY) > 20) {
+                    isFlick = true;
+                    target = moveY < 0 ? 'myth' : 'fact';
+                } else {
+                    if (moveY < -60) target = 'myth';
+                    else if (moveY > 60) target = 'fact';
+                }
             } else {
-                // Classic distance threshold
-                if (moveX < -80) target = 'myth'; // Reduced threshold from 100 to 80
-                if (moveX > 80) target = 'fact';
+                // Horizontal sorting for desktop (Myth Left, Fact Right)
+                if (velocityX > 0.5 && Math.abs(moveX) > 20) {
+                    isFlick = true;
+                    target = moveX < 0 ? 'myth' : 'fact';
+                } else {
+                    if (moveX < -80) target = 'myth';
+                    else if (moveX > 80) target = 'fact';
+                }
             }
-        } else if (activeDragCard.source === 'myth') {
-            if (moveX > 300) target = 'fact';
-            else if (moveX > 100) target = 'deck';
-            else target = 'myth';
-        } else if (activeDragCard.source === 'fact') {
-            if (moveX < -300) target = 'myth';
-            else if (moveX < -100) target = 'deck';
-            else target = 'fact';
+        } else {
+            // Re-sorting from piles (simplified for now)
+            if (isMobile) {
+                if (moveY > 200 && activeDragCard.source === 'myth') target = 'fact';
+                else if (moveY < -200 && activeDragCard.source === 'fact') target = 'myth';
+                else if (Math.abs(moveY) < 100) target = 'deck';
+            } else {
+                if (moveX > 300 && activeDragCard.source === 'myth') target = 'fact';
+                else if (moveX < -300 && activeDragCard.source === 'fact') target = 'myth';
+                else if (Math.abs(moveX) < 100) target = 'deck';
+            }
         }
 
         // Handle Flick/Throw Animation
         if (isFlick && target !== activeDragCard.source) {
             setIsDragging(false);
             setIsThrowing(true);
-            const throwDistance = window.innerWidth;
-            const throwX = moveX > 0 ? throwDistance : -throwDistance;
-            // Add a slight Y arc or continuation based on trajectory
-            const throwY = dragPositionRef.current.y * 2;
+            
+            const throwX = isMobile ? moveX : (moveX > 0 ? window.innerWidth : -window.innerWidth);
+            const throwY = isMobile ? (moveY > 0 ? window.innerHeight : -window.innerHeight) : moveY;
 
             setDragPosition({ x: throwX, y: throwY });
 
-            // Wait for transition to complete before updating state
             setTimeout(() => {
                 finalizeMove(activeDragCard.card, activeDragCard.source, target);
                 setIsThrowing(false);
                 setDragPosition({ x: 0, y: 0 });
                 dragPositionRef.current = { x: 0, y: 0 };
                 setActiveDragCard(null);
-            }, 300); // Matches CSS transition duration
+            }, 300);
             return;
         }
 
