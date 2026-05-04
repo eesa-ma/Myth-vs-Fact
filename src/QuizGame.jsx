@@ -270,19 +270,24 @@ const QuizGameScreen = ({ audioManager, onExit, isPaused = false, playerGender =
                             {quizCards.myth.map((card, i) => (
                                 <div
                                     key={card.id}
-                                    className="absolute w-full h-[120px] md:h-[220px] bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl md:rounded-2xl shadow-xl border-2 border-orange-200 flex flex-col items-center p-2 md:p-4 text-center cursor-grab active:cursor-grabbing hover:-translate-y-2 transition-all duration-300 transform scale-75 md:scale-100 origin-bottom"
+                                    className="absolute w-full h-[120px] md:h-[220px] bg-white rounded-xl md:rounded-2xl shadow-xl border-4 border-white flex flex-col items-center justify-center p-2 md:p-4 text-center cursor-grab active:cursor-grabbing hover:-translate-y-2 transition-all duration-300 transform scale-75 md:scale-100 origin-bottom overflow-hidden"
                                     style={{
                                         zIndex: i,
-                                        top: `${i * 10}px`, // Tighter stack on mobile
+                                        top: `${i * 10}px`,
                                         opacity: (activeDragCard?.card.id === card.id) ? 0 : 1
                                     }}
                                     onMouseDown={(e) => handleCardDragStart(e, card, 'myth')}
                                     onTouchStart={(e) => handleCardDragStart(e, card, 'myth')}
                                 >
-                                    <div className="absolute -top-2 -right-2 md:-top-3 md:-right-3 w-6 h-6 md:w-8 md:h-8 bg-orange-500 rounded-full flex items-center justify-center shadow-md border-2 border-white">
-                                        <img src="/stickman_assets/sad_stickman.svg" className="w-4 h-4 md:w-5 md:h-5 filter invert" alt="Wrong" />
+                                    <div className="w-8 h-8 md:w-16 md:h-16 bg-indigo-50 rounded-full flex items-center justify-center mb-1 md:mb-4 border border-indigo-100 shrink-0">
+                                        <img src="/stickman_assets/thinking_stickman.svg" className="w-6 h-6 md:w-12 md:h-12" alt="" />
                                     </div>
-                                    <p className="mt-2 md:mt-4 text-[8px] md:text-sm font-bold text-slate-800 leading-snug pointer-events-none line-clamp-3 md:line-clamp-4">{card.question}</p>
+                                    <p className="text-[7px] md:text-xs font-black text-slate-800 leading-tight pointer-events-none line-clamp-3 md:line-clamp-4 px-1">{card.question}</p>
+                                    
+                                    {/* Small Marker for Myth */}
+                                    <div className="absolute top-1 right-1 md:top-2 md:right-2 w-3 h-3 md:w-5 md:h-5 bg-orange-500 rounded-full flex items-center justify-center shadow-sm">
+                                        <img src="/stickman_assets/sad_stickman.svg" className="w-2 h-2 md:w-3 md:h-3 filter invert" alt="" />
+                                    </div>
                                 </div>
                             ))}
                         </div>
@@ -312,19 +317,24 @@ const QuizGameScreen = ({ audioManager, onExit, isPaused = false, playerGender =
                             {quizCards.fact.map((card, i) => (
                                 <div
                                     key={card.id}
-                                    className="absolute w-full h-[120px] md:h-[220px] bg-gradient-to-br from-teal-50 to-teal-100 rounded-xl md:rounded-2xl shadow-xl border-2 border-teal-200 flex flex-col items-center p-2 md:p-4 text-center cursor-grab active:cursor-grabbing hover:-translate-y-2 transition-all duration-300 transform scale-75 md:scale-100 origin-bottom"
+                                    className="absolute w-full h-[120px] md:h-[220px] bg-white rounded-xl md:rounded-2xl shadow-xl border-4 border-white flex flex-col items-center justify-center p-2 md:p-4 text-center cursor-grab active:cursor-grabbing hover:-translate-y-2 transition-all duration-300 transform scale-75 md:scale-100 origin-bottom overflow-hidden"
                                     style={{
                                         zIndex: i,
-                                        top: `${i * 10}px`, // Tighter stack on mobile
+                                        top: `${i * 10}px`,
                                         opacity: (activeDragCard?.card.id === card.id) ? 0 : 1
                                     }}
                                     onMouseDown={(e) => handleCardDragStart(e, card, 'fact')}
                                     onTouchStart={(e) => handleCardDragStart(e, card, 'fact')}
                                 >
-                                    <div className="absolute -top-2 -right-2 md:-top-3 md:-right-3 w-6 h-6 md:w-8 md:h-8 bg-teal-500 rounded-full flex items-center justify-center shadow-md border-2 border-white">
-                                        <img src="/stickman_assets/happy_stickman.svg" className="w-4 h-4 md:w-5 md:h-5 filter invert" alt="Correct" />
+                                    <div className="w-8 h-8 md:w-16 md:h-16 bg-indigo-50 rounded-full flex items-center justify-center mb-1 md:mb-4 border border-indigo-100 shrink-0">
+                                        <img src="/stickman_assets/thinking_stickman.svg" className="w-6 h-6 md:w-12 md:h-12" alt="" />
                                     </div>
-                                    <p className="mt-2 md:mt-4 text-[8px] md:text-sm font-bold text-slate-800 leading-snug pointer-events-none line-clamp-3 md:line-clamp-4">{card.question}</p>
+                                    <p className="text-[7px] md:text-xs font-black text-slate-800 leading-tight pointer-events-none line-clamp-3 md:line-clamp-4 px-1">{card.question}</p>
+                                    
+                                    {/* Small Marker for Fact */}
+                                    <div className="absolute top-1 right-1 md:top-2 md:right-2 w-3 h-3 md:w-5 md:h-5 bg-teal-500 rounded-full flex items-center justify-center shadow-sm">
+                                        <img src="/stickman_assets/happy_stickman.svg" className="w-2 h-2 md:w-3 md:h-3 filter invert" alt="" />
+                                    </div>
                                 </div>
                             ))}
                         </div>
