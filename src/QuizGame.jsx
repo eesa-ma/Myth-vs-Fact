@@ -246,19 +246,19 @@ const QuizGameScreen = ({ audioManager, onExit, isPaused = false, playerGender =
             {!showResults ? (
                 <div className="flex-1 relative flex items-center justify-center overflow-hidden">
 
-                    {/* Left Zone: MYTH (Wooden Box Style) */}
-                    <div className="absolute bottom-4 left-4 w-[45%] h-48 md:inset-y-12 md:left-12 md:w-[30%] md:h-auto bg-[#3d2b1f] rounded-3xl flex flex-col items-center justify-start md:pt-16 p-2 md:p-6 z-10 overflow-visible transition-all border-b-8 border-r-8 border-[#2a1d15] shadow-[inset_0_10px_20px_rgba(0,0,0,0.5),0_20px_40px_rgba(0,0,0,0.4)] group">
+                    {/* Top Zone: MYTH (Mobile: Top, Desktop: Left) */}
+                    <div className="absolute top-4 md:top-auto md:bottom-auto md:inset-y-12 left-4 md:left-12 right-4 md:right-auto w-auto md:w-[30%] h-24 md:h-auto bg-[#3d2b1f] rounded-3xl flex flex-row md:flex-col items-center justify-center md:justify-start md:pt-16 p-2 md:p-6 z-10 overflow-visible transition-all border-b-4 md:border-b-8 border-r-4 md:border-r-8 border-[#2a1d15] shadow-[inset_0_10px_20px_rgba(0,0,0,0.5),0_20px_40px_rgba(0,0,0,0.4)] group">
                         {/* Box Inner Shadow/Depth */}
                         <div className="absolute inset-2 border-2 border-white/5 rounded-2xl pointer-events-none" />
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20 pointer-events-none mix-blend-overlay">
-                            <img src={`/stickman_assets/${playerGender}_distressed.svg`} alt="Myth" className="w-24 h-24 md:w-64 md:h-64 filter invert" />
+                            <img src={`/stickman_assets/${playerGender}_distressed.svg`} alt="Myth" className="w-12 h-12 md:w-64 md:h-64 filter invert" />
                         </div>
-                        <div className="absolute md:top-6 top-2 left-0 w-full text-center">
-                            <h2 className="text-xl md:text-3xl font-black uppercase text-transparent bg-clip-text bg-gradient-to-b from-orange-300 to-orange-500 tracking-[0.2em] drop-shadow-sm">MYTH</h2>
+                        <div className="relative md:absolute md:top-6 left-0 w-auto md:w-full text-center px-4">
+                            <h2 className="text-lg md:text-3xl font-black uppercase text-transparent bg-clip-text bg-gradient-to-b from-orange-300 to-orange-500 tracking-[0.2em] drop-shadow-sm">MYTH</h2>
                         </div>
 
                         {/* Myth Pile - Cascading */}
-                        <div className="relative w-full max-w-[220px] flex flex-col items-center mt-8 md:mt-8 h-full justify-center md:justify-start">
+                        <div className="relative w-full md:max-w-[220px] flex md:flex-col items-center mt-0 md:mt-8 h-full justify-center md:justify-start">
                             {quizCards.myth.length === 0 && (
                                 <div className="absolute top-0 w-full h-full md:h-[240px] border-2 md:border-3 border-dashed border-orange-400/30 rounded-2xl flex flex-col items-center justify-center opacity-70 group">
                                     <div className="w-10 h-10 md:w-20 md:h-20 rounded-full bg-orange-500/20 flex items-center justify-center mb-1 md:mb-2 group-hover:scale-110 transition-transform">
@@ -293,19 +293,19 @@ const QuizGameScreen = ({ audioManager, onExit, isPaused = false, playerGender =
                         </div>
                     </div>
 
-                    {/* Right Zone: FACT (Wooden Box Style) */}
-                    <div className="absolute bottom-4 right-4 w-[45%] h-48 md:inset-y-12 md:right-12 md:w-[30%] md:h-auto bg-[#3d2b1f] rounded-3xl flex flex-col items-center justify-start md:pt-16 p-2 md:p-6 z-10 overflow-visible transition-all border-b-8 border-l-8 border-[#2a1d15] shadow-[inset_0_10px_20px_rgba(0,0,0,0.5),0_20px_40px_rgba(0,0,0,0.4)] group">
+                    {/* Bottom Zone: FACT (Mobile: Bottom, Desktop: Right) */}
+                    <div className="absolute bottom-4 md:inset-y-12 right-4 md:right-12 left-4 md:left-auto w-auto md:w-[30%] h-24 md:h-auto bg-[#3d2b1f] rounded-3xl flex flex-row md:flex-col items-center justify-center md:justify-start md:pt-16 p-2 md:p-6 z-10 overflow-visible transition-all border-b-4 md:border-b-8 border-l-4 md:border-l-8 border-[#2a1d15] shadow-[inset_0_10px_20px_rgba(0,0,0,0.5),0_20px_40px_rgba(0,0,0,0.4)] group">
                         {/* Box Inner Shadow/Depth */}
                         <div className="absolute inset-2 border-2 border-white/5 rounded-2xl pointer-events-none" />
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20 pointer-events-none mix-blend-overlay">
-                            <img src="/stickman_assets/scholar_stickman.svg" alt="Fact" className="w-24 h-24 md:w-64 md:h-64 filter invert" />
+                            <img src="/stickman_assets/scholar_stickman.svg" alt="Fact" className="w-12 h-12 md:w-64 md:h-64 filter invert" />
                         </div>
-                        <div className="absolute md:top-6 top-2 left-0 w-full text-center">
-                            <h2 className="text-xl md:text-3xl font-black uppercase text-transparent bg-clip-text bg-gradient-to-b from-teal-300 to-teal-500 tracking-[0.2em] drop-shadow-sm">FACT</h2>
+                        <div className="relative md:absolute md:top-6 left-0 w-auto md:w-full text-center px-4">
+                            <h2 className="text-lg md:text-3xl font-black uppercase text-transparent bg-clip-text bg-gradient-to-b from-teal-300 to-teal-500 tracking-[0.2em] drop-shadow-sm">FACT</h2>
                         </div>
 
                         {/* Fact Pile - Cascading */}
-                        <div className="relative w-full max-w-[220px] flex flex-col items-center mt-8 md:mt-8 h-full justify-center md:justify-start">
+                        <div className="relative w-full md:max-w-[220px] flex md:flex-col items-center mt-0 md:mt-8 h-full justify-center md:justify-start">
                             {quizCards.fact.length === 0 && (
                                 <div className="absolute top-0 w-full h-full md:h-[240px] border-2 md:border-3 border-dashed border-teal-400/30 rounded-2xl flex flex-col items-center justify-center opacity-70 group">
                                     <div className="w-10 h-10 md:w-20 md:h-20 rounded-full bg-teal-500/20 flex items-center justify-center mb-1 md:mb-2 group-hover:scale-110 transition-transform">
@@ -346,7 +346,7 @@ const QuizGameScreen = ({ audioManager, onExit, isPaused = false, playerGender =
                         {/* Next Card Preview (Underneath) */}
                         {nextDeckCard && (
                             <div
-                                className="absolute w-[280px] h-[380px] bg-white/10 backdrop-blur-md rounded-3xl shadow-2xl border border-white/20 flex flex-col items-center justify-center p-8 text-center transform scale-90 translate-y-4 opacity-60 transition-all duration-500"
+                                className="absolute w-[220px] h-[300px] md:w-[280px] md:h-[380px] bg-white/10 backdrop-blur-md rounded-3xl shadow-2xl border border-white/20 flex flex-col items-center justify-center p-8 text-center transform scale-90 translate-y-4 opacity-60 transition-all duration-500"
                                 style={{ zIndex: -1 }}
                             >
                                 <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mb-6 shadow-inner blur-sm"></div>
@@ -358,7 +358,7 @@ const QuizGameScreen = ({ audioManager, onExit, isPaused = false, playerGender =
                         {/* Active Deck Card (Top) */}
                         {topDeckCard && (
                             <div
-                                className={`w-[320px] h-[450px] bg-white rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.4)] border-8 border-white flex flex-col items-center justify-center p-8 text-center cursor-grab active:cursor-grabbing transition-all duration-200 relative z-20 overflow-hidden group quiz-card-container
+                                className={`w-[240px] h-[340px] md:w-[320px] md:h-[450px] bg-white rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.4)] border-4 md:border-8 border-white flex flex-col items-center justify-center p-4 md:p-8 text-center cursor-grab active:cursor-grabbing transition-all duration-200 relative z-20 overflow-hidden group quiz-card-container
                                 ${((isDragging || isThrowing) && activeDragCard?.card.id === topDeckCard.id) ? 'scale-105 opacity-0 pointer-events-none' : 'scale-100 hover:scale-[1.02] hover:-translate-y-4 hover:shadow-[0_40px_70px_rgba(0,0,0,0.5)]'}
                                 `}
                                 onMouseDown={(e) => handleCardDragStart(e, topDeckCard, 'deck')}
