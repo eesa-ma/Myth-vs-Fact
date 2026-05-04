@@ -9,9 +9,6 @@
       <stop offset="0%" style="stop-color:#0f766e;stop-opacity:1" /> <!-- Dark Teal -->
       <stop offset="100%" style="stop-color:#14b8a6;stop-opacity:1" /> <!-- Fact Teal -->
     </linearGradient>
-    <filter id="boxDepth">
-      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-opacity="0.4"/>
-    </filter>
   </defs>
 
   <!-- Professional Card Stack Approach -->
@@ -24,16 +21,16 @@
   <!-- Top Card (White) -->
   <rect x="80" y="40" width="300" height="400" rx="40" fill="#ffffff" stroke="#0d9488" stroke-width="8"/>
   
-  <!-- The Two Sorting Boxes (Color-Coded Myth vs Fact) -->
+  <!-- The Two Sorting Boxes (Color-Coded Myth vs Fact, No Drop Shadow) -->
   <g transform="translate(100, 60)">
     <!-- Box 1 (Myth - Orange) -->
-    <g filter="url(#boxDepth)">
+    <g>
       <rect x="15" y="5" width="85" height="85" rx="12" fill="#f97316"/> <!-- Myth Orange Body -->
       <rect x="23" y="13" width="69" height="60" rx="8" fill="url(#mythInside)"/> <!-- Interior Depth -->
     </g>
     
     <!-- Box 2 (Fact - Teal) -->
-    <g transform="translate(150, 80)" filter="url(#boxDepth)">
+    <g transform="translate(150, 80)">
       <rect x="0" y="5" width="85" height="85" rx="12" fill="#14b8a6"/> <!-- Fact Teal Body -->
       <rect x="8" y="13" width="69" height="60" rx="8" fill="url(#factInside)"/> <!-- Interior Depth -->
     </g>
