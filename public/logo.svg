@@ -1,11 +1,16 @@
 <svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="boxInside" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#1a110a;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#3d2b1f;stop-opacity:1" />
+    <!-- Inside depth gradients -->
+    <linearGradient id="mythInside" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#7c2d12;stop-opacity:1" /> <!-- Dark Orange -->
+      <stop offset="100%" style="stop-color:#f97316;stop-opacity:1" /> <!-- Myth Orange -->
+    </linearGradient>
+    <linearGradient id="factInside" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f766e;stop-opacity:1" /> <!-- Dark Teal -->
+      <stop offset="100%" style="stop-color:#14b8a6;stop-opacity:1" /> <!-- Fact Teal -->
     </linearGradient>
     <filter id="boxDepth">
-      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-opacity="0.6"/>
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-opacity="0.4"/>
     </filter>
   </defs>
 
@@ -19,24 +24,22 @@
   <!-- Top Card (White) -->
   <rect x="80" y="40" width="300" height="400" rx="40" fill="#ffffff" stroke="#0d9488" stroke-width="8"/>
   
-  <!-- The Two Realistic Sorting Boxes (Square Aspect Ratio) -->
+  <!-- The Two Sorting Boxes (Color-Coded Myth vs Fact) -->
   <g transform="translate(100, 60)">
-    <!-- Box 1 (Top Left-ish) -->
+    <!-- Box 1 (Myth - Orange) -->
     <g filter="url(#boxDepth)">
-      <rect x="15" y="5" width="85" height="85" rx="12" fill="#3d2b1f"/> <!-- Exterior Body -->
-      <rect x="23" y="13" width="69" height="60" rx="8" fill="url(#boxInside)"/> <!-- Interior Depth -->
-      <rect x="23" y="73" width="69" height="9" rx="2" fill="#4d3627" opacity="0.5"/> <!-- Floor Highlight -->
+      <rect x="15" y="5" width="85" height="85" rx="12" fill="#f97316"/> <!-- Myth Orange Body -->
+      <rect x="23" y="13" width="69" height="60" rx="8" fill="url(#mythInside)"/> <!-- Interior Depth -->
     </g>
     
-    <!-- Box 2 (Bottom Right-ish) -->
+    <!-- Box 2 (Fact - Teal) -->
     <g transform="translate(150, 80)" filter="url(#boxDepth)">
-      <rect x="0" y="5" width="85" height="85" rx="12" fill="#3d2b1f"/> <!-- Exterior Body -->
-      <rect x="8" y="13" width="69" height="60" rx="8" fill="url(#boxInside)"/> <!-- Interior Depth -->
-      <rect x="8" y="73" width="69" height="9" rx="2" fill="#4d3627" opacity="0.5"/> <!-- Floor Highlight -->
+      <rect x="0" y="5" width="85" height="85" rx="12" fill="#14b8a6"/> <!-- Fact Teal Body -->
+      <rect x="8" y="13" width="69" height="60" rx="8" fill="url(#factInside)"/> <!-- Interior Depth -->
     </g>
   </g>
 
-  <!-- "Empty Stickman" Asset - Enlarged Portrait Version -->
+  <!-- "Empty Stickman" Asset - Enlarged Portrait Version (Black) -->
   <g transform="translate(40, 220) scale(4)">
     <!-- Body -->
     <line x1="50" y1="35" x2="50" y2="55" stroke="black" stroke-width="3" stroke-linecap="round"/>
