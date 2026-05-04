@@ -209,20 +209,8 @@ const QuizGameScreen = ({ audioManager, onExit, isPaused = false, playerGender =
     return (
         <div className="game-container min-h-screen w-full bg-gradient-to-br from-indigo-600 via-purple-700 to-indigo-900 flex flex-col relative overflow-hidden font-sans">
 
-            {/* Animated Background Elements */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-20 left-10 w-32 h-20 opacity-10 animate-float-slow">
-                    <img src="/stickman_assets/cloud.svg" alt="" className="w-full h-full" />
-                </div>
-                <div className="absolute top-40 right-20 w-48 h-28 opacity-10 animate-float-medium delay-1000">
-                    <img src="/stickman_assets/cloud.svg" alt="" className="w-full h-full" />
-                </div>
-                <div className="absolute bottom-20 left-1/3 w-64 h-32 opacity-5 animate-float-fast delay-2000">
-                    <img src="/stickman_assets/cloud.svg" alt="" className="w-full h-full" />
-                </div>
-                {/* Grid Pattern Overlay */}
-                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9IndoaXRlIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz48L3N2Zz4=')] opacity-20"></div>
-            </div>
+            {/* Table Surface Texture */}
+            <div className="absolute inset-0 opacity-10 pointer-events-none bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0id2hpdGUiIGZpbGwtb3BhY2l0eT0iMC4xIi8+PC9zdmc+')]"></div>
 
             {/* Top Bar */}
             <div className="relative z-50 px-6 py-4 flex justify-between items-center bg-white/10 backdrop-blur-md border-b border-white/10 shadow-lg">
@@ -258,8 +246,10 @@ const QuizGameScreen = ({ audioManager, onExit, isPaused = false, playerGender =
             {!showResults ? (
                 <div className="flex-1 relative flex items-center justify-center overflow-hidden">
 
-                    {/* Left Zone: MYTH */}
-                    <div className="absolute bottom-4 left-4 w-[42%] h-40 md:inset-y-4 md:w-1/3 md:h-auto bg-white/5 backdrop-blur-sm border-2 border-orange-400/30 rounded-3xl flex flex-col items-center justify-start md:pt-20 p-2 md:p-4 z-10 overflow-visible transition-colors hover:bg-orange-500/10 hover:border-orange-400/50">
+                    {/* Left Zone: MYTH (Wooden Box Style) */}
+                    <div className="absolute bottom-4 left-4 w-[45%] h-48 md:inset-y-12 md:left-12 md:w-[30%] md:h-auto bg-[#3d2b1f] rounded-3xl flex flex-col items-center justify-start md:pt-16 p-2 md:p-6 z-10 overflow-visible transition-all border-b-8 border-r-8 border-[#2a1d15] shadow-[inset_0_10px_20px_rgba(0,0,0,0.5),0_20px_40px_rgba(0,0,0,0.4)] group">
+                        {/* Box Inner Shadow/Depth */}
+                        <div className="absolute inset-2 border-2 border-white/5 rounded-2xl pointer-events-none" />
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20 pointer-events-none mix-blend-overlay">
                             <img src={`/stickman_assets/${playerGender}_distressed.svg`} alt="Myth" className="w-24 h-24 md:w-64 md:h-64 filter invert" />
                         </div>
@@ -298,8 +288,10 @@ const QuizGameScreen = ({ audioManager, onExit, isPaused = false, playerGender =
                         </div>
                     </div>
 
-                    {/* Right Zone: FACT */}
-                    <div className="absolute bottom-4 right-4 w-[42%] h-40 md:inset-y-4 md:w-1/3 md:h-auto bg-white/5 backdrop-blur-sm border-2 border-teal-400/30 rounded-3xl flex flex-col items-center justify-start md:pt-20 p-2 md:p-4 z-10 overflow-visible transition-colors hover:bg-teal-500/10 hover:border-teal-400/50">
+                    {/* Right Zone: FACT (Wooden Box Style) */}
+                    <div className="absolute bottom-4 right-4 w-[45%] h-48 md:inset-y-12 md:right-12 md:w-[30%] md:h-auto bg-[#3d2b1f] rounded-3xl flex flex-col items-center justify-start md:pt-16 p-2 md:p-6 z-10 overflow-visible transition-all border-b-8 border-l-8 border-[#2a1d15] shadow-[inset_0_10px_20px_rgba(0,0,0,0.5),0_20px_40px_rgba(0,0,0,0.4)] group">
+                        {/* Box Inner Shadow/Depth */}
+                        <div className="absolute inset-2 border-2 border-white/5 rounded-2xl pointer-events-none" />
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20 pointer-events-none mix-blend-overlay">
                             <img src="/stickman_assets/scholar_stickman.svg" alt="Fact" className="w-24 h-24 md:w-64 md:h-64 filter invert" />
                         </div>
@@ -356,8 +348,8 @@ const QuizGameScreen = ({ audioManager, onExit, isPaused = false, playerGender =
                         {/* Active Deck Card (Top) */}
                         {topDeckCard && (
                             <div
-                                className={`w-[300px] h-[420px] bg-white rounded-3xl shadow-2xl border-[6px] border-white flex flex-col items-center justify-center p-8 text-center cursor-grab active:cursor-grabbing transition-all duration-200 relative z-20 overflow-hidden group quiz-card-container
-                                ${((isDragging || isThrowing) && activeDragCard?.card.id === topDeckCard.id) ? 'scale-105 opacity-0 pointer-events-none' : 'scale-100 hover:scale-[1.02] hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)]'}
+                                className={`w-[320px] h-[450px] bg-white rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.4)] border-8 border-white flex flex-col items-center justify-center p-8 text-center cursor-grab active:cursor-grabbing transition-all duration-200 relative z-20 overflow-hidden group quiz-card-container
+                                ${((isDragging || isThrowing) && activeDragCard?.card.id === topDeckCard.id) ? 'scale-105 opacity-0 pointer-events-none' : 'scale-100 hover:scale-[1.02] hover:-translate-y-4 hover:shadow-[0_40px_70px_rgba(0,0,0,0.5)]'}
                                 `}
                                 onMouseDown={(e) => handleCardDragStart(e, topDeckCard, 'deck')}
                                 onTouchStart={(e) => handleCardDragStart(e, topDeckCard, 'deck')}
