@@ -46,13 +46,17 @@ const QuizGameScreen = ({ audioManager, onExit, isPaused = false, playerGender =
 
     const handleCardDragStart = (e, card, source) => {
         if (isPaused) return;
+        
+        // Prevent default browser behavior (scrolling/text selection)
+        if (e.cancelable) e.preventDefault();
         e.stopPropagation();
+
         const clientX = e.touches ? e.touches[0].clientX : e.clientX;
         const clientY = e.touches ? e.touches[0].clientY : e.clientY;
         setIsDragging(true);
         setDragStart({ x: clientX, y: clientY });
         setDragPosition({ x: 0, y: 0 });
-        dragPositionRef.current = { x: 0, y: 0 }; // Reset ref
+        dragPositionRef.current = { x: 0, y: 0 };
         setActiveDragCard({ card, source });
         dragStartTime.current = Date.now();
     };
@@ -283,7 +287,7 @@ const QuizGameScreen = ({ audioManager, onExit, isPaused = false, playerGender =
                             {quizCards.myth.map((card, i) => (
                                 <div
                                     key={card.id}
-                                    className="absolute w-full h-[120px] md:h-[220px] bg-white rounded-xl md:rounded-2xl shadow-xl border-4 border-white flex flex-col items-center justify-center p-2 md:p-4 text-center cursor-grab active:cursor-grabbing hover:-translate-y-2 transition-all duration-300 transform scale-75 md:scale-100 origin-bottom overflow-hidden"
+                                    className="absolute w-full h-[120px] md:h-[220px] bg-white rounded-xl md:rounded-2xl shadow-xl border-4 border-white flex flex-col items-center justify-center p-2 md:p-4 text-center cursor-grab active:cursor-grabbing hover:-translate-y-2 transition-all duration-300 transform scale-75 md:scale-100 origin-bottom overflow-hidden touch-none"
                                     style={{
                                         zIndex: i,
                                         top: `${i * 10}px`,
@@ -330,7 +334,7 @@ const QuizGameScreen = ({ audioManager, onExit, isPaused = false, playerGender =
                             {quizCards.fact.map((card, i) => (
                                 <div
                                     key={card.id}
-                                    className="absolute w-full h-[120px] md:h-[220px] bg-white rounded-xl md:rounded-2xl shadow-xl border-4 border-white flex flex-col items-center justify-center p-2 md:p-4 text-center cursor-grab active:cursor-grabbing hover:-translate-y-2 transition-all duration-300 transform scale-75 md:scale-100 origin-bottom overflow-hidden"
+                                    className="absolute w-full h-[120px] md:h-[220px] bg-white rounded-xl md:rounded-2xl shadow-xl border-4 border-white flex flex-col items-center justify-center p-2 md:p-4 text-center cursor-grab active:cursor-grabbing hover:-translate-y-2 transition-all duration-300 transform scale-75 md:scale-100 origin-bottom overflow-hidden touch-none"
                                     style={{
                                         zIndex: i,
                                         top: `${i * 10}px`,
@@ -371,7 +375,7 @@ const QuizGameScreen = ({ audioManager, onExit, isPaused = false, playerGender =
                         {/* Active Deck Card (Top) */}
                         {topDeckCard && (
                             <div
-                                className={`w-[240px] h-[340px] md:w-[320px] md:h-[450px] bg-white rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.4)] border-4 md:border-8 border-white flex flex-col items-center justify-center p-4 md:p-8 text-center cursor-grab active:cursor-grabbing transition-all duration-200 relative z-20 overflow-hidden group quiz-card-container
+                                className={`w-[240px] h-[340px] md:w-[320px] md:h-[450px] bg-white rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.4)] border-4 md:border-8 border-white flex flex-col items-center justify-center p-4 md:p-8 text-center cursor-grab active:cursor-grabbing transition-all duration-200 relative z-20 overflow-hidden group quiz-card-container touch-none
                                 ${((isDragging || isThrowing) && activeDragCard?.card.id === topDeckCard.id) ? 'scale-105 opacity-0 pointer-events-none' : 'scale-100 hover:scale-[1.02] hover:-translate-y-4 hover:shadow-[0_40px_70px_rgba(0,0,0,0.5)]'}
                                 `}
                                 onMouseDown={(e) => handleCardDragStart(e, topDeckCard, 'deck')}
