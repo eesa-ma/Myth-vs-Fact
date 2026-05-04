@@ -47,8 +47,8 @@ const QuizGameScreen = ({ audioManager, onExit, isPaused = false, playerGender =
     const handleCardDragStart = (e, card, source) => {
         if (isPaused) return;
         
-        // Prevent default browser behavior (scrolling/text selection)
-        if (e.cancelable) e.preventDefault();
+        // touch-none class on the element handles scroll prevention.
+        // preventDefault() is removed to avoid "passive listener" errors in React.
         e.stopPropagation();
 
         const clientX = e.touches ? e.touches[0].clientX : e.clientX;
