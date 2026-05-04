@@ -19,23 +19,23 @@
   <!-- Top Card (White) -->
   <rect x="80" y="40" width="300" height="400" rx="40" fill="#ffffff" stroke="#0d9488" stroke-width="8"/>
   
-  <!-- The Two Realistic Sorting Boxes (At Top) -->
-  <g transform="translate(110, 100)">
-    <!-- Box 1 (Left) -->
+  <!-- The Two Realistic Sorting Boxes (Staggered Layout) -->
+  <g transform="translate(100, 60)">
+    <!-- Box 1 (Top Left-ish) -->
     <g filter="url(#boxDepth)">
-      <rect x="0" y="5" width="110" height="60" rx="10" fill="#3d2b1f"/>
-      <rect x="10" y="10" width="90" height="40" rx="5" fill="url(#boxInside)"/>
+      <rect x="10" y="5" width="110" height="60" rx="10" fill="#3d2b1f"/>
+      <rect x="20" y="10" width="90" height="40" rx="5" fill="url(#boxInside)"/>
     </g>
     
-    <!-- Box 2 (Right) -->
-    <g transform="translate(130, 0)" filter="url(#boxDepth)">
+    <!-- Box 2 (Bottom Right-ish) -->
+    <g transform="translate(140, 70)" filter="url(#boxDepth)">
       <rect x="0" y="5" width="110" height="60" rx="10" fill="#3d2b1f"/>
       <rect x="10" y="10" width="90" height="40" rx="5" fill="url(#boxInside)"/>
     </g>
   </g>
 
-  <!-- "Empty Stickman" Asset - Enlarged Portrait Version (Black Color) -->
-  <g transform="translate(40, 190) scale(4)">
+  <!-- "Empty Stickman" Asset - Enlarged Portrait Version (Moved Down and Left) -->
+  <g transform="translate(40, 210) scale(4)">
     <!-- Body (Cut halfway) -->
     <line x1="50" y1="35" x2="50" y2="55" stroke="black" stroke-width="3" stroke-linecap="round"/>
     <!-- Head -->
