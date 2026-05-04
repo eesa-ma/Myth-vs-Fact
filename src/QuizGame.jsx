@@ -391,13 +391,16 @@ const QuizGameScreen = ({ audioManager, onExit, isPaused = false, playerGender =
                     {/* Dragging Ghost/Cursor Follower */}
                     {(isDragging || isThrowing) && activeDragCard && (
                         <div
-                            className={`fixed z-[9999] pointer-events-none w-[200px] h-[40px] md:h-auto bg-white/95 backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.4)] rounded-2xl border-4 border-indigo-400 flex items-center justify-center p-4 md:p-6 text-center transform -translate-x-1/2 -translate-y-1/2 rotate-3 ${isThrowing ? 'transition-all duration-300 ease-out' : ''}`}
+                            className={`fixed z-[9999] pointer-events-none w-[320px] h-[450px] bg-white rounded-2xl shadow-[0_30px_70px_rgba(0,0,0,0.5)] border-8 border-white flex flex-col items-center justify-center p-8 text-center transform -translate-x-1/2 -translate-y-1/2 rotate-3 ${isThrowing ? 'transition-all duration-300 ease-out' : ''}`}
                             style={{
                                 left: dragStart.x + dragPosition.x,
                                 top: dragStart.y + dragPosition.y,
                             }}
                         >
-                            <p className="text-xs md:text-sm font-black text-slate-800 leading-snug line-clamp-2">{activeDragCard.card.question}</p>
+                            <div className="w-24 h-24 bg-indigo-50 rounded-full flex items-center justify-center mb-6 shadow-inner border border-indigo-100">
+                                <img src="/stickman_assets/thinking_stickman.svg" className="w-20 h-20" alt="" />
+                            </div>
+                            <p className="text-xl font-black text-slate-800 leading-tight">{activeDragCard.card.question}</p>
                         </div>
                     )}
 
