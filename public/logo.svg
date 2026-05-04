@@ -19,7 +19,7 @@
   <!-- Top Card (White) -->
   <rect x="80" y="40" width="300" height="400" rx="40" fill="#ffffff" stroke="#0d9488" stroke-width="8"/>
   
-  <!-- The Two Realistic Sorting Boxes (Moved to Top) -->
+  <!-- The Two Realistic Sorting Boxes (At Top) -->
   <g transform="translate(110, 100)">
     <!-- Box 1 (Left) -->
     <g filter="url(#boxDepth)">
@@ -34,8 +34,8 @@
     </g>
   </g>
 
-  <!-- "Empty Stickman" Asset - Enlarged Portrait Version (Moved to Bottom Left) -->
-  <g transform="translate(40, 240) scale(4)">
+  <!-- "Empty Stickman" Asset - Enlarged Portrait Version (Moved Up slightly) -->
+  <g transform="translate(40, 190) scale(4)">
     <!-- Body (Cut halfway) -->
     <line x1="50" y1="35" x2="50" y2="55" stroke="#0d9488" stroke-width="3" stroke-linecap="round"/>
     <!-- Head -->
