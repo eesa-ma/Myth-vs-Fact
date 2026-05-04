@@ -34,25 +34,25 @@
     </g>
   </g>
 
-  <!-- "Empty Stickman" Asset - Enlarged Portrait Version (Moved Up slightly) -->
+  <!-- "Empty Stickman" Asset - Enlarged Portrait Version (Black Color) -->
   <g transform="translate(40, 190) scale(4)">
     <!-- Body (Cut halfway) -->
-    <line x1="50" y1="35" x2="50" y2="55" stroke="#0d9488" stroke-width="3" stroke-linecap="round"/>
+    <line x1="50" y1="35" x2="50" y2="55" stroke="black" stroke-width="3" stroke-linecap="round"/>
     <!-- Head -->
-    <circle cx="50" cy="25" r="10" fill="none" stroke="#0d9488" stroke-width="3"/>
+    <circle cx="50" cy="25" r="10" fill="none" stroke="black" stroke-width="3"/>
     
     <!-- Arms Shrugging -->
-    <path d="M50 45 Q30 45 25 30" fill="none" stroke="#0d9488" stroke-width="3" stroke-linecap="round"/>
-    <path d="M50 45 Q70 45 75 30" fill="none" stroke="#0d9488" stroke-width="3" stroke-linecap="round"/>
+    <path d="M50 45 Q30 45 25 30" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"/>
+    <path d="M50 45 Q70 45 75 30" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"/>
     
     <!-- Palms up -->
-    <path d="M23 30 Q25 28 27 30" fill="none" stroke="#0d9488" stroke-width="3" stroke-linecap="round"/>
-    <path d="M73 30 Q75 28 77 30" fill="none" stroke="#0d9488" stroke-width="3" stroke-linecap="round"/>
+    <path d="M23 30 Q25 28 27 30" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"/>
+    <path d="M73 30 Q75 28 77 30" fill="none" stroke="black" stroke-width="3" stroke-linecap="round"/>
 
     <!-- Face Confused -->
-    <circle cx="45" cy="23" r="1.5" fill="#0d9488"/>
-    <circle cx="55" cy="23" r="1.5" fill="#0d9488"/>
-    <line x1="47" y1="30" x2="53" y2="30" stroke="#0d9488" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="45" cy="23" r="1.5" fill="black"/>
+    <circle cx="55" cy="23" r="1.5" fill="black"/>
+    <line x1="47" y1="30" x2="53" y2="30" stroke="black" stroke-width="2" stroke-linecap="round"/>
     
     <!-- Question Marks (Orange Accent) -->
     <path d="M30 15 Q35 10 35 15 Q35 20 32 22 M32 25 L32 26" stroke="#fbbf24" stroke-width="3" fill="none"/>
