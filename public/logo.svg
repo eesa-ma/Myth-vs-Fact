@@ -10,7 +10,7 @@
   <rect x="80" y="40" width="300" height="400" rx="40" fill="#ffffff" stroke="#0d9488" stroke-width="8"/>
   
   <!-- "Empty Stickman" Asset Embedded on Top Card -->
-  <g transform="translate(130, 110) scale(2)">
+  <g transform="translate(130, 90) scale(2)">
     <!-- Body -->
     <line x1="50" y1="35" x2="50" y2="70" stroke="#0d9488" stroke-width="3" stroke-linecap="round"/>
     <!-- Head -->
@@ -36,5 +36,16 @@
     <!-- Question Marks (Orange Accent) -->
     <path d="M30 15 Q35 10 35 15 Q35 20 32 22 M32 25 L32 26" stroke="#fbbf24" stroke-width="3" fill="none"/>
     <path d="M70 15 Q75 10 75 15 Q75 20 72 22 M72 25 L72 26" stroke="#fbbf24" stroke-width="3" fill="none"/>
+  </g>
+
+  <!-- The Two Sorting Boxes (Myth vs Fact) -->
+  <g transform="translate(100, 340)">
+    <!-- Myth Box (Orange) -->
+    <rect x="0" y="0" width="120" height="70" rx="15" fill="#3d2b1f" stroke="#f97316" stroke-width="4"/>
+    <text x="60" y="45" font-family="Arial, sans-serif" font-size="16" font-weight="900" fill="#f97316" text-anchor="middle" letter-spacing="1">MYTH</text>
+    
+    <!-- Fact Box (Teal) -->
+    <rect x="140" y="0" width="120" height="70" rx="15" fill="#3d2b1f" stroke="#14b8a6" stroke-width="4"/>
+    <text x="200" y="45" font-family="Arial, sans-serif" font-size="16" font-weight="900" fill="#14b8a6" text-anchor="middle" letter-spacing="1">FACT</text>
   </g>
 </svg>
