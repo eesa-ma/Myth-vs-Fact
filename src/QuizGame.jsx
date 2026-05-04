@@ -315,7 +315,7 @@ const QuizGameScreen = ({ audioManager, onExit, isPaused = false, playerGender =
                         {/* Box Inner Shadow/Depth */}
                         <div className="absolute inset-2 border-2 border-white/5 rounded-2xl pointer-events-none" />
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20 pointer-events-none mix-blend-overlay">
-                            <img src="/stickman_assets/scholar_stickman.svg" alt="Fact" className="w-12 h-12 md:w-64 md:h-64 filter invert" />
+                            <img src="/stickman_assets/thinking_stickman.svg" alt="Fact" className="w-12 h-12 md:w-64 md:h-64 filter invert" />
                         </div>
                         <div className="relative md:absolute md:top-6 left-0 w-auto md:w-full text-center px-4">
                             <h2 className="text-lg md:text-3xl font-black uppercase text-transparent bg-clip-text bg-gradient-to-b from-teal-300 to-teal-500 tracking-[0.2em] drop-shadow-sm">FACT</h2>

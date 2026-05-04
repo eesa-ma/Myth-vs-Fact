@@ -13,7 +13,7 @@ const FailureScreen = ({ score, totalQuestions, onRestart, onExit }) => {
                 {/* Failure Icon */}
                 <div className="mb-8 relative inline-block">
                     <div className="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center border-4 border-white shadow-lg relative z-10">
-                        <img src="/stickman_assets/distressed_stickman.svg" className="w-16 h-16" alt="Time's Up" />
+                        <img src="/stickman_assets/guy_distressed.svg" className="w-16 h-16" alt="Time's Up" />
                     </div>
                 </div>
 
