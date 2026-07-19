@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { QUIZ_QUESTIONS } from './data/quizData';
 
-const QuizGameScreen = ({ audioManager, onExit, playerGender = 'guy' }) => {
+const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' }) => {
     const [isPausedInternal, setIsPausedInternal] = useState(false);
-    const [quizTimer, setQuizTimer] = useState(60);
+    const [quizTimer, setQuizTimer] = useState(levelData.timeLimit || 60);
     const [quizCards, setQuizCards] = useState({ deck: [], myth: [], fact: [] });
     const [dragPosition, setDragPosition] = useState({ x: 0, y: 0 });
     const dragPositionRef = useRef({ x: 0, y: 0 }); // Ref for synchronous access
@@ -17,13 +16,13 @@ const QuizGameScreen = ({ audioManager, onExit, playerGender = 'guy' }) => {
 
     useEffect(() => {
         // Shuffle the deck on mount to avoid repetition
-        const shuffledDeck = [...QUIZ_QUESTIONS].sort(() => Math.random() - 0.5);
+        const shuffledDeck = [...levelData.questions].sort(() => Math.random() - 0.5);
         setQuizCards({
             deck: shuffledDeck,
             myth: [],
             fact: []
         });
-    }, []);
+    }, [levelData]);
 
     useEffect(() => {
         if (showResults || isPausedInternal) return;
@@ -204,9 +203,9 @@ const QuizGameScreen = ({ audioManager, onExit, playerGender = 'guy' }) => {
     };
 
     const restartQuiz = () => {
-        setQuizTimer(60);
+        setQuizTimer(levelData.timeLimit || 60);
         setQuizCards({
-            deck: [...QUIZ_QUESTIONS],
+            deck: [...levelData.questions].sort(() => Math.random() - 0.5),
             myth: [],
             fact: []
         });
@@ -222,6 +221,7 @@ const QuizGameScreen = ({ audioManager, onExit, playerGender = 'guy' }) => {
     const correctMyth = quizCards.myth.filter(c => c.answer === 'Myth');
     const correctFact = quizCards.fact.filter(c => c.answer === 'Fact');
     const totalCorrect = correctMyth.length + correctFact.length;
+    const totalAnswered = quizCards.myth.length + quizCards.fact.length;
     const isDeckEmpty = quizCards.deck.length === 0;
 
     return (
@@ -472,10 +472,10 @@ const QuizGameScreen = ({ audioManager, onExit, playerGender = 'guy' }) => {
                     <div className="shrink-0 py-4 px-6 md:px-8 bg-white shadow-sm flex flex-col md:flex-row items-center justify-between border-b border-slate-200 z-10 gap-4 md:gap-0 quiz-end-header">
                         <div className="text-center md:text-left">
                             <h2 className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 quiz-end-title">
-                                {totalCorrect === QUIZ_QUESTIONS.length ? "Perfect Score!" : "Time's Up!"}
+                                {totalCorrect === totalAnswered && totalAnswered > 0 ? "Perfect Sorting!" : "Time's Up!"}
                             </h2>
                             <p className="text-slate-600 font-medium text-sm md:text-base quiz-end-stats">
-                                You sorted <span className="text-indigo-600 font-black text-lg">{totalCorrect}</span> / <span className="font-bold">{QUIZ_QUESTIONS.length}</span> correctly.
+                                You sorted <span className="text-indigo-600 font-black text-lg">{totalCorrect}</span> / <span className="font-bold">{totalAnswered}</span> correctly.
                             </p>
                         </div>
                         <div className="flex gap-3 quiz-end-actions">
