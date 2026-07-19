@@ -1,5 +1,6 @@
 import React from 'react';
 import { QUIZ_LEVELS } from '../data/quizData';
+import { toggleFullscreen } from '../utils/fullscreen';
 
 const LevelSelectScreen = ({ onSelectLevel, onBack }) => {
     return (
@@ -15,6 +16,18 @@ const LevelSelectScreen = ({ onSelectLevel, onBack }) => {
                         className="w-10 h-10 md:w-12 md:h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-all transform hover:scale-110 shadow-lg border border-white/10"
                     >
                         <span className="text-xl md:text-2xl font-bold leading-none -mt-1">←</span>
+                    </button>
+                </div>
+
+                <div className="absolute top-6 right-6 md:top-8 md:right-8">
+                    <button 
+                        onClick={toggleFullscreen}
+                        className="w-10 h-10 md:w-12 md:h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-all transform hover:scale-110 shadow-lg border border-white/10"
+                        title="Toggle Fullscreen"
+                    >
+                        <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>
+                        </svg>
                     </button>
                 </div>
 
