@@ -15,8 +15,22 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
     const [missedPage, setMissedPage] = useState(0);
     const [mythPage, setMythPage] = useState(0);
     const [factPage, setFactPage] = useState(0);
+    const [itemsPerPage, setItemsPerPage] = useState({ piles: 4, missed: 6 });
     const dragStartTime = useRef(0);
     const lastHapticTarget = useRef(null);
+
+    useEffect(() => {
+        const updateLayout = () => {
+            if (window.innerWidth < 768) {
+                setItemsPerPage({ piles: 2, missed: 2 });
+            } else {
+                setItemsPerPage({ piles: 4, missed: 6 });
+            }
+        };
+        updateLayout();
+        window.addEventListener('resize', updateLayout);
+        return () => window.removeEventListener('resize', updateLayout);
+    }, []);
 
     useEffect(() => {
         // Shuffle the deck on mount to avoid repetition
@@ -510,12 +524,12 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                     </div>
 
                     {/* Main Content Containers */}
-                    <div className="flex-1 overflow-hidden p-4 flex flex-col gap-4 w-full h-full max-w-7xl mx-auto quiz-end-content">
+                    <div className="flex-1 overflow-y-auto md:overflow-hidden p-4 flex flex-col gap-4 w-full h-full max-w-7xl mx-auto quiz-end-content">
                         
                         {/* Top half: Piles */}
-                        <div className="flex-1 min-h-0 flex flex-col md:flex-row gap-4">
+                        <div className="flex-none md:flex-1 md:min-h-0 flex flex-col md:flex-row gap-4">
                             {/* Myth Column */}
-                            <div className="flex-1 flex flex-col bg-white rounded-2xl border border-orange-200 shadow-sm overflow-hidden h-full">
+                            <div className="flex-none md:flex-1 flex flex-col bg-white rounded-2xl border border-orange-200 shadow-sm overflow-hidden h-auto md:h-full">
                                 <div className="shrink-0 p-3 bg-orange-50 border-b border-orange-100 flex items-center justify-between">
                                     <div className="flex items-center gap-3">
                                         <div className="w-8 h-8 rounded-full bg-white text-orange-600 flex items-center justify-center shadow-sm border border-orange-100">
@@ -523,9 +537,9 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                                         </div>
                                         <h3 className="font-black uppercase text-orange-600 tracking-widest text-xs md:text-sm">Myth Pile</h3>
                                     </div>
-                                    {Math.ceil(quizCards.myth.length / 4) > 1 && (
+                                    {Math.ceil(quizCards.myth.length / itemsPerPage.piles) > 1 && (
                                         <div className="flex gap-1 md:gap-2 items-center">
-                                            <button 
+                                            <button
                                                 onClick={() => setMythPage(Math.max(0, mythPage - 1))}
                                                 disabled={mythPage === 0}
                                                 className="w-5 h-5 md:w-6 md:h-6 rounded bg-white border border-orange-200 flex items-center justify-center text-orange-500 disabled:opacity-50 hover:bg-orange-100 font-bold text-xs"
@@ -533,11 +547,11 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                                                 &lt;
                                             </button>
                                             <span className="text-[10px] font-bold text-orange-400">
-                                                {mythPage + 1} / {Math.ceil(quizCards.myth.length / 4)}
+                                                {mythPage + 1} / {Math.ceil(quizCards.myth.length / itemsPerPage.piles)}
                                             </span>
-                                            <button 
-                                                onClick={() => setMythPage(Math.min(Math.ceil(quizCards.myth.length / 4) - 1, mythPage + 1))}
-                                                disabled={mythPage === Math.ceil(quizCards.myth.length / 4) - 1}
+                                            <button
+                                                onClick={() => setMythPage(Math.min(Math.ceil(quizCards.myth.length / itemsPerPage.piles) - 1, mythPage + 1))}
+                                                disabled={mythPage === Math.ceil(quizCards.myth.length / itemsPerPage.piles) - 1}
                                                 className="w-5 h-5 md:w-6 md:h-6 rounded bg-white border border-orange-200 flex items-center justify-center text-orange-500 disabled:opacity-50 hover:bg-orange-100 font-bold text-xs"
                                             >
                                                 &gt;
@@ -547,7 +561,7 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                                 </div>
                                 <div className="flex-1 overflow-hidden p-3 space-y-2">
                                     {quizCards.myth.length === 0 && <div className="h-full flex items-center justify-center text-slate-400 italic text-sm">No cards in this pile</div>}
-                                    {quizCards.myth.slice(mythPage * 4, (mythPage + 1) * 4).map((c, i) => (
+                                    {quizCards.myth.slice(mythPage * itemsPerPage.piles, (mythPage + 1) * itemsPerPage.piles).map((c, i) => (
                                         <div key={i} className={`p-3 rounded-xl border-l-4 bg-slate-50 transition-all hover:bg-white hover:shadow-sm ${c.answer === 'Myth' ? 'border-teal-400 bg-teal-50/20' : 'border-red-400 bg-red-50/20'}`}>
                                             <div className="flex justify-between items-start gap-2">
                                                 <span className="text-xs md:text-sm font-bold text-slate-700 leading-snug">{c.question}</span>
@@ -564,7 +578,7 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                             </div>
 
                             {/* Fact Column */}
-                            <div className="flex-1 flex flex-col bg-white rounded-2xl border border-teal-200 shadow-sm overflow-hidden h-full">
+                            <div className="flex-none md:flex-1 flex flex-col bg-white rounded-2xl border border-teal-200 shadow-sm overflow-hidden h-auto md:h-full">
                                 <div className="shrink-0 p-3 bg-teal-50 border-b border-teal-100 flex items-center justify-between">
                                     <div className="flex items-center gap-3">
                                         <div className="w-8 h-8 rounded-full bg-white text-teal-600 flex items-center justify-center shadow-sm border border-teal-100">
@@ -572,9 +586,9 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                                         </div>
                                         <h3 className="font-black uppercase text-teal-600 tracking-widest text-xs md:text-sm">Fact Pile</h3>
                                     </div>
-                                    {Math.ceil(quizCards.fact.length / 4) > 1 && (
+                                    {Math.ceil(quizCards.fact.length / itemsPerPage.piles) > 1 && (
                                         <div className="flex gap-1 md:gap-2 items-center">
-                                            <button 
+                                            <button
                                                 onClick={() => setFactPage(Math.max(0, factPage - 1))}
                                                 disabled={factPage === 0}
                                                 className="w-5 h-5 md:w-6 md:h-6 rounded bg-white border border-teal-200 flex items-center justify-center text-teal-500 disabled:opacity-50 hover:bg-teal-100 font-bold text-xs"
@@ -582,11 +596,11 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                                                 &lt;
                                             </button>
                                             <span className="text-[10px] font-bold text-teal-400">
-                                                {factPage + 1} / {Math.ceil(quizCards.fact.length / 4)}
+                                                {factPage + 1} / {Math.ceil(quizCards.fact.length / itemsPerPage.piles)}
                                             </span>
-                                            <button 
-                                                onClick={() => setFactPage(Math.min(Math.ceil(quizCards.fact.length / 4) - 1, factPage + 1))}
-                                                disabled={factPage === Math.ceil(quizCards.fact.length / 4) - 1}
+                                            <button
+                                                onClick={() => setFactPage(Math.min(Math.ceil(quizCards.fact.length / itemsPerPage.piles) - 1, factPage + 1))}
+                                                disabled={factPage === Math.ceil(quizCards.fact.length / itemsPerPage.piles) - 1}
                                                 className="w-5 h-5 md:w-6 md:h-6 rounded bg-white border border-teal-200 flex items-center justify-center text-teal-500 disabled:opacity-50 hover:bg-teal-100 font-bold text-xs"
                                             >
                                                 &gt;
@@ -596,7 +610,7 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                                 </div>
                                 <div className="flex-1 overflow-hidden p-3 space-y-2">
                                     {quizCards.fact.length === 0 && <div className="h-full flex items-center justify-center text-slate-400 italic text-sm">No cards in this pile</div>}
-                                    {quizCards.fact.slice(factPage * 4, (factPage + 1) * 4).map((c, i) => (
+                                    {quizCards.fact.slice(factPage * itemsPerPage.piles, (factPage + 1) * itemsPerPage.piles).map((c, i) => (
                                         <div key={i} className={`p-3 rounded-xl border-l-4 bg-slate-50 transition-all hover:bg-white hover:shadow-sm ${c.answer === 'Fact' ? 'border-teal-400 bg-teal-50/20' : 'border-red-400 bg-red-50/20'}`}>
                                             <div className="flex justify-between items-start gap-2">
                                                 <span className="text-xs md:text-sm font-bold text-slate-700 leading-snug">{c.question}</span>
@@ -621,7 +635,7 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                                         Missed Questions ({quizCards.deck.length})
                                     </h3>
                                     
-                                    {Math.ceil(quizCards.deck.length / 6) > 1 && (
+                                    {Math.ceil(quizCards.deck.length / itemsPerPage.missed) > 1 && (
                                         <div className="flex gap-2 items-center">
                                             <button 
                                                 onClick={() => setMissedPage(Math.max(0, missedPage - 1))}
@@ -631,11 +645,11 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                                                 &lt;
                                             </button>
                                             <span className="text-[10px] font-bold text-slate-400">
-                                                {missedPage + 1} / {Math.ceil(quizCards.deck.length / 6)}
+                                                {missedPage + 1} / {Math.ceil(quizCards.deck.length / itemsPerPage.missed)}
                                             </span>
                                             <button 
-                                                onClick={() => setMissedPage(Math.min(Math.ceil(quizCards.deck.length / 6) - 1, missedPage + 1))}
-                                                disabled={missedPage === Math.ceil(quizCards.deck.length / 6) - 1}
+                                                onClick={() => setMissedPage(Math.min(Math.ceil(quizCards.deck.length / itemsPerPage.missed) - 1, missedPage + 1))}
+                                                disabled={missedPage === Math.ceil(quizCards.deck.length / itemsPerPage.missed) - 1}
                                                 className="w-6 h-6 rounded bg-white border border-slate-200 flex items-center justify-center text-slate-500 disabled:opacity-50 hover:bg-slate-50 font-bold"
                                             >
                                                 &gt;
@@ -644,7 +658,7 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                                     )}
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                                    {quizCards.deck.slice(missedPage * 6, (missedPage + 1) * 6).map((c, i) => (
+                                    {quizCards.deck.slice(missedPage * itemsPerPage.missed, (missedPage + 1) * itemsPerPage.missed).map((c, i) => (
                                         <div key={i} className="bg-white p-2 rounded border border-slate-200 text-[10px] text-slate-500 truncate flex justify-between items-center transition-all hover:border-indigo-300">
                                             <span className="truncate mr-2 flex-1" title={c.question}>{c.question}</span>
                                             <span className={`shrink-0 font-bold px-2 py-0.5 rounded text-[8px] uppercase tracking-wider ${c.answer === 'Fact' ? 'bg-teal-100 text-teal-700' : 'bg-orange-100 text-orange-700'}`}>{c.answer}</span>
