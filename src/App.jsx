@@ -8,6 +8,7 @@ import { audioManager } from './utils/audio.js';
 const App = () => {
   const [gameState, setGameState] = useState('SPLASH');
   const [activeLevel, setActiveLevel] = useState(null);
+  const [globalCorrectIds, setGlobalCorrectIds] = useState(new Set());
 
   // Navigation handlers
   const handleStartTutorial = () => {
@@ -33,6 +34,18 @@ const App = () => {
     setGameState('LEVEL_SELECT');
   };
 
+  const handleMarkCorrect = (questionId) => {
+    setGlobalCorrectIds(prev => {
+      const newSet = new Set(prev);
+      newSet.add(questionId);
+      return newSet;
+    });
+  };
+
+  const handleResetGame = () => {
+    setGlobalCorrectIds(new Set());
+  };
+
   return (
     <div className="game-wrapper min-h-screen w-full bg-slate-900">
       {gameState === 'SPLASH' && (
@@ -50,6 +63,8 @@ const App = () => {
         <LevelSelectScreen
           onSelectLevel={handleLevelSelected}
           onBack={handleBackToSplash}
+          globalCorrectIds={globalCorrectIds}
+          onResetGame={handleResetGame}
         />
       )}
 
@@ -58,6 +73,8 @@ const App = () => {
           audioManager={audioManager}
           levelData={activeLevel}
           onExit={handleExitGame}
+          globalCorrectIds={globalCorrectIds}
+          onMarkCorrect={handleMarkCorrect}
         />
       )}
     </div>

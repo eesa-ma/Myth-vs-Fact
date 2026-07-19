@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { toggleFullscreen } from './utils/fullscreen';
 
-const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' }) => {
+const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy', globalCorrectIds = new Set(), onMarkCorrect }) => {
     const [isPausedInternal, setIsPausedInternal] = useState(false);
     const [quizTimer, setQuizTimer] = useState(levelData.timeLimit || 60);
     const [quizCards, setQuizCards] = useState({ deck: [], myth: [], fact: [] });
@@ -33,14 +33,25 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
     }, []);
 
     useEffect(() => {
-        // Shuffle the deck on mount to avoid repetition
-        const shuffledDeck = [...levelData.questions].sort(() => Math.random() - 0.5);
+        // Filter out questions that have already been correctly answered
+        const remainingQuestions = levelData.questions.filter(q => !globalCorrectIds.has(q.id));
+        
+        const shuffledDeck = [...remainingQuestions].sort(() => Math.random() - 0.5);
+        
         setQuizCards({
             deck: shuffledDeck,
             myth: [],
             fact: []
         });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [levelData]);
+
+    useEffect(() => {
+        const targetGoal = levelData.id === 1 ? 13 : levelData.id === 2 ? 26 : 36;
+        if (globalCorrectIds.size >= targetGoal) {
+            setShowResults(true);
+        }
+    }, [globalCorrectIds.size, levelData.id]);
 
     useEffect(() => {
         if (showResults || isPausedInternal) return;
@@ -64,7 +75,7 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
 
     const handleCardDragStart = (e, card, source) => {
         if (isPausedInternal) return;
-        
+
         // touch-none class on the element handles scroll prevention.
         // preventDefault() is removed to avoid "passive listener" errors in React.
         e.stopPropagation();
@@ -160,7 +171,7 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
         if (isFlick && target !== activeDragCard.source) {
             setIsDragging(false);
             setIsThrowing(true);
-            
+
             const throwX = isMobile ? moveX : (moveX > 0 ? window.innerWidth : -window.innerWidth);
             const throwY = isMobile ? (moveY > 0 ? window.innerHeight : -window.innerHeight) : moveY;
 
@@ -197,6 +208,9 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                     if (isCorrect) navigator.vibrate(50); // Crisp success
                     else navigator.vibrate([50, 50, 50]); // Heavy failure buzz
                 }
+                if (isCorrect && onMarkCorrect) {
+                    onMarkCorrect(card.id);
+                }
             }
 
             // Haptic feedback for drops (generic)
@@ -210,6 +224,9 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
 
     const moveCard = (card, from, to) => {
         setQuizCards(prev => {
+            // Prevent duplicating the card in the destination
+            if (prev[to].some(c => c.id === card.id)) return prev;
+
             const newSource = prev[from].filter(c => c.id !== card.id);
             const newDest = [...prev[to], card];
             return {
@@ -222,8 +239,12 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
 
     const restartQuiz = () => {
         setQuizTimer(levelData.timeLimit || 60);
+        
+        const remainingQuestions = levelData.questions.filter(q => !globalCorrectIds.has(q.id));
+        const shuffledDeck = [...remainingQuestions].sort(() => Math.random() - 0.5);
+
         setQuizCards({
-            deck: [...levelData.questions].sort(() => Math.random() - 0.5),
+            deck: shuffledDeck,
             myth: [],
             fact: []
         });
@@ -243,7 +264,7 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
     const isDeckEmpty = quizCards.deck.length === 0;
 
     return (
-        <div 
+        <div
             className="game-container min-h-screen w-full bg-linear-to-br from-indigo-600 via-purple-700 to-indigo-900 flex flex-col relative overflow-hidden font-sans select-none"
             onMouseMove={handleCardDragMove}
             onTouchMove={handleCardDragMove}
@@ -266,13 +287,26 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                     </button>
                 </div>
 
-                <div className="flex-none flex flex-col items-center">
+                <div className="flex-none flex flex-row items-center gap-2 md:gap-4">
                     <div className="relative px-3 py-1.5 md:px-4 md:py-2 bg-black/40 rounded-2xl border border-white/10 backdrop-blur-md flex flex-col items-center shadow-2xl">
                         <span className="text-[7px] md:text-[8px] uppercase tracking-[0.2em] text-white/60 font-black mb-0.5 md:mb-1">Time Remaining</span>
                         <div className="flex items-center gap-1 md:gap-2">
                             <img src="/stickman_assets/clock_stickman.svg" className={`w-5 h-5 md:w-8 md:h-8 filter invert opacity-80 ${quizTimer < 10 ? 'animate-bounce-subtle' : ''}`} alt="Timer" />
                             <span className={`text-lg md:text-3xl font-black font-mono tracking-wider ${quizTimer < 10 ? 'text-red-400 drop-shadow-[0_0_10px_rgba(248,113,113,0.5)] animate-pulse' : 'text-white drop-shadow-md'}`}>
                                 00:{quizTimer.toString().padStart(2, '0')}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div className="relative px-3 py-1.5 md:px-4 md:py-2 bg-black/40 rounded-2xl border border-white/10 backdrop-blur-md flex flex-col items-center shadow-2xl">
+                        <span className="text-[7px] md:text-[8px] uppercase tracking-[0.2em] text-white/60 font-black mb-0.5 md:mb-1">Level Progress</span>
+                        <div className="flex items-center gap-1 md:gap-2">
+                            <span className="text-lg md:text-3xl font-black font-mono tracking-wider text-teal-400 drop-shadow-md">
+                                {levelData.id === 1 ? Math.min(globalCorrectIds.size, 13) : levelData.id === 2 ? Math.min(Math.max(globalCorrectIds.size - 13, 0), 13) : Math.min(Math.max(globalCorrectIds.size - 26, 0), 10)}
+                            </span>
+                            <span className="text-sm md:text-xl font-bold text-white/50">/</span>
+                            <span className="text-sm md:text-xl font-bold text-white/80">
+                                {levelData.id === 3 ? 10 : 13}
                             </span>
                         </div>
                     </div>
@@ -286,17 +320,16 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                         title="Toggle Fullscreen"
                     >
                         <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>
+                            <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
                         </svg>
                     </button>
 
                     <button
                         onClick={() => setIsPausedInternal(!isPausedInternal)}
-                        className={`p-3 rounded-full transition-all duration-300 flex items-center justify-center ${
-                            isPausedInternal 
-                            ? 'bg-emerald-500 hover:bg-emerald-600 shadow-emerald-500/30' 
-                            : 'bg-white/20 hover:bg-white/30'
-                        } border border-white/20 shadow-lg`}
+                        className={`p-3 rounded-full transition-all duration-300 flex items-center justify-center ${isPausedInternal
+                                ? 'bg-emerald-500 hover:bg-emerald-600 shadow-emerald-500/30'
+                                : 'bg-white/20 hover:bg-white/30'
+                            } border border-white/20 shadow-lg`}
                         title={isPausedInternal ? "Resume" : "Pause"}
                     >
                         {isPausedInternal ? (
@@ -361,7 +394,7 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                                         <img src="/stickman_assets/thinking_stickman.svg" className="w-6 h-6 md:w-12 md:h-12" alt="" />
                                     </div>
                                     <p className="text-[7px] md:text-xs font-black text-slate-800 leading-tight pointer-events-none line-clamp-3 md:line-clamp-4 px-1">{card.question}</p>
-                                    
+
                                     {/* Small Marker for Myth */}
                                     <div className="absolute top-1 right-1 md:top-2 md:right-2 w-3 h-3 md:w-5 md:h-5 bg-orange-500 rounded-full flex items-center justify-center shadow-sm">
                                         <img src="/stickman_assets/sad_stickman.svg" className="w-2 h-2 md:w-3 md:h-3 filter invert" alt="" />
@@ -408,7 +441,7 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                                         <img src="/stickman_assets/thinking_stickman.svg" className="w-6 h-6 md:w-12 md:h-12" alt="" />
                                     </div>
                                     <p className="text-[7px] md:text-xs font-black text-slate-800 leading-tight pointer-events-none line-clamp-3 md:line-clamp-4 px-1">{card.question}</p>
-                                    
+
                                     {/* Small Marker for Fact */}
                                     <div className="absolute top-1 right-1 md:top-2 md:right-2 w-3 h-3 md:w-5 md:h-5 bg-teal-500 rounded-full flex items-center justify-center shadow-sm">
                                         <img src="/stickman_assets/happy_stickman.svg" className="w-2 h-2 md:w-3 md:h-3 filter invert" alt="" />
@@ -509,20 +542,39 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                     {/* Header */}
                     <div className="shrink-0 py-4 px-6 md:px-8 bg-white shadow-sm flex flex-col md:flex-row items-center justify-between border-b border-slate-200 z-10 gap-4 md:gap-0 quiz-end-header">
                         <div className="text-center md:text-left">
-                            <h2 className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-linear-to-r from-indigo-600 to-purple-600 quiz-end-title">
-                                {totalCorrect === totalAnswered && totalAnswered > 0 ? "Perfect Sorting!" : "Time's Up!"}
+                            <h2 className={`text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-linear-to-r ${
+                                (() => {
+                                    const targetGoal = levelData.id === 1 ? 13 : levelData.id === 2 ? 26 : 36;
+                                    const hasPassed = globalCorrectIds.size >= targetGoal;
+                                    return hasPassed ? 'from-emerald-500 to-teal-500' : 'from-indigo-600 to-purple-600';
+                                })()
+                            } quiz-end-title`}>
+                                {(() => {
+                                    const targetGoal = levelData.id === 1 ? 13 : levelData.id === 2 ? 26 : 36;
+                                    if (globalCorrectIds.size >= targetGoal) return "Level Passed!";
+                                    if (totalAnswered === 0) return "Time's Up!";
+                                    return "Keep Going!";
+                                })()}
                             </h2>
-                            <p className="text-slate-600 font-medium text-sm md:text-base quiz-end-stats">
-                                You sorted <span className="text-indigo-600 font-black text-lg">{totalCorrect}</span> / <span className="font-bold">{totalAnswered}</span> correctly.
+                            <p className="text-slate-600 font-medium text-sm md:text-base quiz-end-stats mt-2">
+                                You sorted <span className="text-indigo-600 font-black text-lg">{totalCorrect}</span> correctly this round.<br />
+                                Level Progress: <span className="text-indigo-600 font-black text-lg">
+                                    {levelData.id === 1 ? Math.min(globalCorrectIds.size, 13) : levelData.id === 2 ? Math.min(Math.max(globalCorrectIds.size - 13, 0), 13) : Math.min(Math.max(globalCorrectIds.size - 26, 0), 10)}
+                                </span> / {levelData.id === 3 ? 10 : 13}
                             </p>
                         </div>
                         <div className="flex gap-3 quiz-end-actions">
-                            <button
-                                onClick={restartQuiz}
-                                className="px-5 py-3 min-h-11 bg-white text-indigo-600 border-2 border-indigo-100 rounded-full font-bold uppercase tracking-widest hover:bg-indigo-50 transition-all active:scale-95 flex items-center gap-2 text-[10px] md:text-xs shadow-sm"
-                            >
-                                <span className="text-base">↺</span> Restart
-                            </button>
+                            {(() => {
+                                const targetGoal = levelData.id === 1 ? 13 : levelData.id === 2 ? 26 : 36;
+                                return globalCorrectIds.size < targetGoal;
+                            })() && (
+                                <button
+                                    onClick={restartQuiz}
+                                    className="px-5 py-3 min-h-11 bg-white text-indigo-600 border-2 border-indigo-100 rounded-full font-bold uppercase tracking-widest hover:bg-indigo-50 transition-all active:scale-95 flex items-center gap-2 text-[10px] md:text-xs shadow-sm"
+                                >
+                                    <span className="text-base">↺</span> Restart
+                                </button>
+                            )}
                             <button
                                 onClick={onExit}
                                 className="px-6 py-3 min-h-11 bg-slate-900 text-white rounded-full font-bold uppercase tracking-widest hover:bg-slate-800 transition-all active:scale-95 flex items-center gap-2 text-[10px] md:text-xs shadow-md hover:shadow-lg"
@@ -534,7 +586,7 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
 
                     {/* Main Content Containers */}
                     <div className="flex-1 overflow-y-auto md:overflow-hidden p-4 flex flex-col gap-4 w-full h-full max-w-7xl mx-auto quiz-end-content">
-                        
+
                         {/* Top half: Piles */}
                         <div className="flex-none md:flex-1 md:min-h-0 flex flex-col md:flex-row gap-4">
                             {/* Myth Column */}
@@ -643,10 +695,10 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                                     <h3 className="font-black uppercase text-slate-400 text-[10px] tracking-widest">
                                         Missed Questions ({quizCards.deck.length})
                                     </h3>
-                                    
+
                                     {Math.ceil(quizCards.deck.length / itemsPerPage.missed) > 1 && (
                                         <div className="flex gap-2 items-center">
-                                            <button 
+                                            <button
                                                 onClick={() => setMissedPage(Math.max(0, missedPage - 1))}
                                                 disabled={missedPage === 0}
                                                 className="w-6 h-6 rounded bg-white border border-slate-200 flex items-center justify-center text-slate-500 disabled:opacity-50 hover:bg-slate-50 font-bold"
@@ -656,7 +708,7 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                                             <span className="text-[10px] font-bold text-slate-400">
                                                 {missedPage + 1} / {Math.ceil(quizCards.deck.length / itemsPerPage.missed)}
                                             </span>
-                                            <button 
+                                            <button
                                                 onClick={() => setMissedPage(Math.min(Math.ceil(quizCards.deck.length / itemsPerPage.missed) - 1, missedPage + 1))}
                                                 disabled={missedPage === Math.ceil(quizCards.deck.length / itemsPerPage.missed) - 1}
                                                 className="w-6 h-6 rounded bg-white border border-slate-200 flex items-center justify-center text-slate-500 disabled:opacity-50 hover:bg-slate-50 font-bold"
@@ -691,7 +743,7 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                         </div>
                         <h2 className="text-3xl font-black text-slate-800 uppercase tracking-tight mb-2">Game Paused</h2>
                         <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px] mb-8">Take a breath, then jump back in!</p>
-                        
+
                         <button
                             onClick={() => setIsPausedInternal(false)}
                             className="w-full py-5 bg-indigo-600 text-white font-black uppercase tracking-[0.2em] rounded-2xl shadow-xl shadow-indigo-600/30 hover:bg-indigo-500 transition-all hover:-translate-y-1 active:scale-95"
