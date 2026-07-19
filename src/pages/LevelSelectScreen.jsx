@@ -7,7 +7,7 @@ const LevelSelectScreen = ({ onSelectLevel, onBack }) => {
              {/* Table Surface Texture Overlay */}
              <div className="absolute inset-0 opacity-10 pointer-events-none bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0id2hpdGUiIGZpbGwtb3BhY2l0eT0iMC4xIi8+PC9zdmc+')]"></div>
 
-            <div className="relative z-10 max-w-4xl w-full bg-[#3d2b1f] border-b-4 md:border-b-8 border-r-4 md:border-r-8 border-[#2a1d15] rounded-[2rem] md:rounded-[3rem] p-6 md:p-12 shadow-[inset_0_10px_20px_rgba(0,0,0,0.5),0_30px_60px_rgba(0,0,0,0.4)] animate-scale-in">
+            <div className="relative z-10 max-w-4xl w-full bg-[#3d2b1f] border-b-4 md:border-b-8 border-r-4 md:border-r-8 border-[#2a1d15] rounded-4xl md:rounded-[3rem] p-6 md:p-12 shadow-[inset_0_10px_20px_rgba(0,0,0,0.5),0_30px_60px_rgba(0,0,0,0.4)] animate-scale-in">
                 
                 <div className="absolute top-6 left-6 md:top-8 md:left-8">
                     <button 
@@ -30,7 +30,7 @@ const LevelSelectScreen = ({ onSelectLevel, onBack }) => {
                             onClick={() => onSelectLevel(level)}
                             className="group flex flex-col md:flex-row items-center text-left p-4 md:p-6 bg-black/30 rounded-2xl md:rounded-3xl border-2 border-white/10 hover:border-teal-400 hover:bg-black/40 transition-all transform hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(20,184,166,0.3)] gap-4 md:gap-6"
                         >
-                            <div className="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-teal-400 to-emerald-600 rounded-xl md:rounded-2xl flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform shrink-0 border-2 border-white/20">
+                            <div className="w-16 h-16 md:w-20 md:h-20 bg-linear-to-br from-teal-400 to-emerald-600 rounded-xl md:rounded-2xl flex items-center justify-center shadow-inner group-hover:scale-105 transition-transform shrink-0 border-2 border-white/20">
                                 <span className="text-3xl md:text-4xl font-black text-white drop-shadow-md">{level.id}</span>
                             </div>
                             <div className="flex-1 text-center md:text-left">

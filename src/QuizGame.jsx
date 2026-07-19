@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { toggleFullscreen } from './utils/fullscreen';
 
 const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' }) => {
     const [isPausedInternal, setIsPausedInternal] = useState(false);
@@ -225,7 +226,7 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
     const isDeckEmpty = quizCards.deck.length === 0;
 
     return (
-        <div className="game-container min-h-screen w-full bg-gradient-to-br from-indigo-600 via-purple-700 to-indigo-900 flex flex-col relative overflow-hidden font-sans">
+        <div className="game-container min-h-screen w-full bg-linear-to-br from-indigo-600 via-purple-700 to-indigo-900 flex flex-col relative overflow-hidden font-sans">
 
             {/* Table Surface Texture */}
             <div className="absolute inset-0 opacity-10 pointer-events-none bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0id2hpdGUiIGZpbGwtb3BhY2l0eT0iMC4xIi8+PC9zdmc+')]"></div>
@@ -234,7 +235,7 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
             <div className="relative z-50 px-6 py-4 flex justify-between items-center bg-white/10 backdrop-blur-md border-b border-white/10 shadow-lg">
                 <button
                     onClick={onExit}
-                    className="group flex items-center gap-2 px-6 py-3 min-h-[44px] rounded-full bg-red-500 hover:bg-red-600 transition-all border border-red-400 shadow-md transform hover:scale-105 active:scale-95"
+                    className="group flex items-center gap-2 px-6 py-3 min-h-11 rounded-full bg-red-500 hover:bg-red-600 transition-all border border-red-400 shadow-md transform hover:scale-105 active:scale-95"
                 >
                     <span className="text-white text-xs font-bold uppercase tracking-widest">Exit</span>
                 </button>
@@ -251,7 +252,18 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                     </div>
                 </div>
 
-                <div className="text-right flex items-center justify-end gap-4 min-w-[120px]">
+                {/*toggle fullscreen*/}
+                <div className="text-right flex items-center justify-end gap-2 md:gap-4 min-w-30">
+                    <button
+                        onClick={toggleFullscreen}
+                        className="p-3 rounded-full transition-all duration-300 flex items-center justify-center bg-white/20 hover:bg-white/30 border border-white/20 shadow-lg"
+                        title="Toggle Fullscreen"
+                    >
+                        <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>
+                        </svg>
+                    </button>
+
                     <button
                         onClick={() => setIsPausedInternal(!isPausedInternal)}
                         className={`p-3 rounded-full transition-all duration-300 flex items-center justify-center ${
@@ -275,7 +287,7 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                     {isDeckEmpty && !showResults && (
                         <button
                             onClick={finishQuiz}
-                            className="bg-gradient-to-r from-teal-400 to-emerald-500 text-white px-6 py-3 min-h-[44px] rounded-full text-xs font-bold uppercase tracking-wider hover:from-teal-300 hover:to-emerald-400 shadow-lg shadow-teal-500/30 transform hover:scale-105 active:scale-95 transition-all outline-none border border-white/20"
+                            className="bg-linear-to-r from-teal-400 to-emerald-500 text-white px-6 py-3 min-h-11 rounded-full text-xs font-bold uppercase tracking-wider hover:from-teal-300 hover:to-emerald-400 shadow-lg shadow-teal-500/30 transform hover:scale-105 active:scale-95 transition-all outline-none border border-white/20"
                         >
                             Finish
                         </button>
@@ -294,13 +306,13 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                             <img src={`/stickman_assets/${playerGender}_distressed.svg`} alt="Myth" className="w-12 h-12 md:w-64 md:h-64 filter invert" />
                         </div>
                         <div className="relative md:absolute md:top-6 left-0 w-auto md:w-full text-center px-4">
-                            <h2 className="text-lg md:text-3xl font-black uppercase text-transparent bg-clip-text bg-gradient-to-b from-orange-300 to-orange-500 tracking-[0.2em] drop-shadow-sm">MYTH</h2>
+                            <h2 className="text-lg md:text-3xl font-black uppercase text-transparent bg-clip-text bg-linear-to-b from-orange-300 to-orange-500 tracking-[0.2em] drop-shadow-sm">MYTH</h2>
                         </div>
 
                         {/* Myth Pile - Cascading */}
-                        <div className="relative w-full md:max-w-[220px] flex md:flex-col items-center mt-0 md:mt-8 h-full justify-center md:justify-start">
+                        <div className="relative w-full md:max-w-55 flex md:flex-col items-center mt-0 md:mt-8 h-full justify-center md:justify-start">
                             {quizCards.myth.length === 0 && (
-                                <div className="absolute top-0 w-full h-full md:h-[240px] border-2 md:border-3 border-dashed border-orange-400/30 rounded-2xl flex flex-col items-center justify-center opacity-70 group">
+                                <div className="absolute top-0 w-full h-full md:h-60 border-2 md:border-3 border-dashed border-orange-400/30 rounded-2xl flex flex-col items-center justify-center opacity-70 group">
                                     <div className="w-10 h-10 md:w-20 md:h-20 rounded-full bg-orange-500/20 flex items-center justify-center mb-1 md:mb-2 group-hover:scale-110 transition-transform">
                                         <img src="/stickman_assets/pointing_stickman.svg" className="w-6 h-6 md:w-12 md:h-12 opacity-60" alt="Drop Here" />
                                     </div>
@@ -310,7 +322,7 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                             {quizCards.myth.map((card, i) => (
                                 <div
                                     key={card.id}
-                                    className="absolute w-full h-[120px] md:h-[220px] bg-white rounded-xl md:rounded-2xl shadow-xl border-4 border-white flex flex-col items-center justify-center p-2 md:p-4 text-center cursor-grab active:cursor-grabbing hover:-translate-y-2 transition-all duration-300 transform scale-75 md:scale-100 origin-bottom overflow-hidden touch-none"
+                                    className="absolute w-full h-30 md:h-55 bg-white rounded-xl md:rounded-2xl shadow-xl border-4 border-white flex flex-col items-center justify-center p-2 md:p-4 text-center cursor-grab active:cursor-grabbing hover:-translate-y-2 transition-all duration-300 transform scale-75 md:scale-100 origin-bottom overflow-hidden touch-none"
                                     style={{
                                         zIndex: i,
                                         top: `${i * 10}px`,
@@ -341,13 +353,13 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                             <img src="/stickman_assets/thinking_stickman.svg" alt="Fact" className="w-12 h-12 md:w-64 md:h-64 filter invert" />
                         </div>
                         <div className="relative md:absolute md:top-6 left-0 w-auto md:w-full text-center px-4">
-                            <h2 className="text-lg md:text-3xl font-black uppercase text-transparent bg-clip-text bg-gradient-to-b from-teal-300 to-teal-500 tracking-[0.2em] drop-shadow-sm">FACT</h2>
+                            <h2 className="text-lg md:text-3xl font-black uppercase text-transparent bg-clip-text bg-linear-to-b from-teal-300 to-teal-500 tracking-[0.2em] drop-shadow-sm">FACT</h2>
                         </div>
 
                         {/* Fact Pile - Cascading */}
-                        <div className="relative w-full md:max-w-[220px] flex md:flex-col items-center mt-0 md:mt-8 h-full justify-center md:justify-start">
+                        <div className="relative w-full md:max-w-55 flex md:flex-col items-center mt-0 md:mt-8 h-full justify-center md:justify-start">
                             {quizCards.fact.length === 0 && (
-                                <div className="absolute top-0 w-full h-full md:h-[240px] border-2 md:border-3 border-dashed border-teal-400/30 rounded-2xl flex flex-col items-center justify-center opacity-70 group">
+                                <div className="absolute top-0 w-full h-full md:h-60 border-2 md:border-3 border-dashed border-teal-400/30 rounded-2xl flex flex-col items-center justify-center opacity-70 group">
                                     <div className="w-10 h-10 md:w-20 md:h-20 rounded-full bg-teal-500/20 flex items-center justify-center mb-1 md:mb-2 group-hover:scale-110 transition-transform">
                                         <img src="/stickman_assets/pointing_stickman.svg" className="w-6 h-6 md:w-12 md:h-12 opacity-60" alt="Drop Here" />
                                     </div>
@@ -357,7 +369,7 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                             {quizCards.fact.map((card, i) => (
                                 <div
                                     key={card.id}
-                                    className="absolute w-full h-[120px] md:h-[220px] bg-white rounded-xl md:rounded-2xl shadow-xl border-4 border-white flex flex-col items-center justify-center p-2 md:p-4 text-center cursor-grab active:cursor-grabbing hover:-translate-y-2 transition-all duration-300 transform scale-75 md:scale-100 origin-bottom overflow-hidden touch-none"
+                                    className="absolute w-full h-30 md:h-55 bg-white rounded-xl md:rounded-2xl shadow-xl border-4 border-white flex flex-col items-center justify-center p-2 md:p-4 text-center cursor-grab active:cursor-grabbing hover:-translate-y-2 transition-all duration-300 transform scale-75 md:scale-100 origin-bottom overflow-hidden touch-none"
                                     style={{
                                         zIndex: i,
                                         top: `${i * 10}px`,
@@ -386,7 +398,7 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                         {/* Next Card Preview (Underneath) */}
                         {nextDeckCard && (
                             <div
-                                className="absolute w-[220px] h-[300px] md:w-[280px] md:h-[380px] bg-white/10 backdrop-blur-md rounded-3xl shadow-2xl border border-white/20 flex flex-col items-center justify-center p-8 text-center transform scale-90 translate-y-4 opacity-60 transition-all duration-500"
+                                className="absolute w-55 h-75 md:w-70 md:h-95 bg-white/10 backdrop-blur-md rounded-3xl shadow-2xl border border-white/20 flex flex-col items-center justify-center p-8 text-center transform scale-90 translate-y-4 opacity-60 transition-all duration-500"
                                 style={{ zIndex: -1 }}
                             >
                                 <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mb-6 shadow-inner blur-sm"></div>
@@ -398,15 +410,15 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                         {/* Active Deck Card (Top) */}
                         {topDeckCard && (
                             <div
-                                className={`w-[240px] h-[340px] md:w-[320px] md:h-[450px] bg-white rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.4)] border-4 md:border-8 border-white flex flex-col items-center justify-center p-4 md:p-8 text-center cursor-grab active:cursor-grabbing transition-all duration-200 relative z-20 overflow-hidden group quiz-card-container touch-none
+                                className={`w-60 h-85 md:w-[320px] md:h-112.5 bg-white rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.4)] border-4 md:border-8 border-white flex flex-col items-center justify-center p-4 md:p-8 text-center cursor-grab active:cursor-grabbing transition-all duration-200 relative z-20 overflow-hidden group quiz-card-container touch-none
                                 ${((isDragging || isThrowing) && activeDragCard?.card.id === topDeckCard.id) ? 'scale-105 opacity-0 pointer-events-none' : 'scale-100 hover:scale-[1.02] hover:-translate-y-4 hover:shadow-[0_40px_70px_rgba(0,0,0,0.5)]'}
                                 `}
                                 onMouseDown={(e) => handleCardDragStart(e, topDeckCard, 'deck')}
                                 onTouchStart={(e) => handleCardDragStart(e, topDeckCard, 'deck')}
                             >
                                 {/* Card Decorations */}
-                                <div className="absolute top-0 w-full h-32 bg-gradient-to-b from-indigo-50 to-transparent pointer-events-none" />
-                                <div className="absolute bottom-0 w-full h-32 bg-gradient-to-t from-purple-50 to-transparent pointer-events-none" />
+                                <div className="absolute top-0 w-full h-32 bg-linear-to-b from-indigo-50 to-transparent pointer-events-none" />
+                                <div className="absolute bottom-0 w-full h-32 bg-linear-to-t from-purple-50 to-transparent pointer-events-none" />
 
                                 <div className="relative z-10 w-32 h-32 bg-indigo-50 rounded-full flex items-center justify-center mb-6 shadow-inner border border-indigo-100 group-hover:bg-indigo-100 transition-colors quiz-card-icon">
                                     <img src="/stickman_assets/thinking_stickman.svg" className="w-24 h-24 drop-shadow-sm" alt="Thinking" />
@@ -425,12 +437,12 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
 
                         {quizCards.deck.length === 0 && (
                             <div className="flex flex-col items-center justify-center animate-fade-in scale-110">
-                                <div className="bg-white/90 backdrop-blur-md p-8 rounded-[2rem] shadow-2xl border border-white/50 flex flex-col items-center text-center">
+                                <div className="bg-white/90 backdrop-blur-md p-8 rounded-4xl shadow-2xl border border-white/50 flex flex-col items-center text-center">
                                     <div className="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center mb-4 p-4 border-2 border-slate-200 animate-pulse-slow">
                                         <img src="/stickman_assets/empty_stickman.svg" className="w-16 h-16 opacity-80" alt="Empty" />
                                     </div>
                                     <span className="text-xl uppercase font-black tracking-[0.2em] mb-2 text-slate-900 drop-shadow-none">Deck Empty</span>
-                                    <p className="text-sm max-w-[220px] text-slate-600 font-bold leading-relaxed">
+                                    <p className="text-sm max-w-55 text-slate-600 font-bold leading-relaxed">
                                         Review your choices in the piles or click <span className="text-teal-600">Finish</span>.
                                     </p>
                                 </div>
@@ -441,7 +453,7 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                     {/* Dragging Ghost/Cursor Follower */}
                     {(isDragging || isThrowing) && activeDragCard && (
                         <div
-                            className={`fixed z-[9999] pointer-events-none w-[320px] h-[450px] bg-white rounded-2xl shadow-[0_30px_70px_rgba(0,0,0,0.5)] border-8 border-white flex flex-col items-center justify-center p-8 text-center transform -translate-x-1/2 -translate-y-1/2 rotate-3 ${isThrowing ? 'transition-all duration-300 ease-out' : ''}`}
+                            className={`fixed z-9999 pointer-events-none w-[320px] h-112.5 bg-white rounded-2xl shadow-[0_30px_70px_rgba(0,0,0,0.5)] border-8 border-white flex flex-col items-center justify-center p-8 text-center transform -translate-x-1/2 -translate-y-1/2 rotate-3 ${isThrowing ? 'transition-all duration-300 ease-out' : ''}`}
                             style={{
                                 left: dragStart.x + dragPosition.x,
                                 top: dragStart.y + dragPosition.y,
@@ -457,7 +469,7 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                     {/* Global Drag Overlay */}
                     {isDragging && (
                         <div
-                            className="fixed inset-0 z-[100] cursor-grabbing"
+                            className="fixed inset-0 z-100 cursor-grabbing"
                             onMouseMove={handleCardDragMove}
                             onTouchMove={handleCardDragMove}
                             onMouseUp={handleCardDragEnd}
@@ -471,7 +483,7 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                     {/* Header */}
                     <div className="shrink-0 py-4 px-6 md:px-8 bg-white shadow-sm flex flex-col md:flex-row items-center justify-between border-b border-slate-200 z-10 gap-4 md:gap-0 quiz-end-header">
                         <div className="text-center md:text-left">
-                            <h2 className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 quiz-end-title">
+                            <h2 className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-linear-to-r from-indigo-600 to-purple-600 quiz-end-title">
                                 {totalCorrect === totalAnswered && totalAnswered > 0 ? "Perfect Sorting!" : "Time's Up!"}
                             </h2>
                             <p className="text-slate-600 font-medium text-sm md:text-base quiz-end-stats">
@@ -481,13 +493,13 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                         <div className="flex gap-3 quiz-end-actions">
                             <button
                                 onClick={restartQuiz}
-                                className="px-5 py-3 min-h-[44px] bg-white text-indigo-600 border-2 border-indigo-100 rounded-full font-bold uppercase tracking-widest hover:bg-indigo-50 transition-all active:scale-95 flex items-center gap-2 text-[10px] md:text-xs shadow-sm"
+                                className="px-5 py-3 min-h-11 bg-white text-indigo-600 border-2 border-indigo-100 rounded-full font-bold uppercase tracking-widest hover:bg-indigo-50 transition-all active:scale-95 flex items-center gap-2 text-[10px] md:text-xs shadow-sm"
                             >
                                 <span className="text-base">↺</span> Restart
                             </button>
                             <button
                                 onClick={onExit}
-                                className="px-6 py-3 min-h-[44px] bg-slate-900 text-white rounded-full font-bold uppercase tracking-widest hover:bg-slate-800 transition-all active:scale-95 flex items-center gap-2 text-[10px] md:text-xs shadow-md hover:shadow-lg"
+                                className="px-6 py-3 min-h-11 bg-slate-900 text-white rounded-full font-bold uppercase tracking-widest hover:bg-slate-800 transition-all active:scale-95 flex items-center gap-2 text-[10px] md:text-xs shadow-md hover:shadow-lg"
                             >
                                 Menu <span className="text-base">→</span>
                             </button>
@@ -550,7 +562,7 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
 
                         {/* Missed Questions (If any, displayed as a small scrollable vertical list if we have too many, or just appended? Let's hide missed questions for now to ensure perfect layout as user moved the cards themselves) */}
                         {quizCards.deck.length > 0 && (
-                            <div className="md:col-span-2 bg-slate-100 rounded-xl p-4 border border-slate-200 h-[100px] overflow-y-auto">
+                            <div className="md:col-span-2 bg-slate-100 rounded-xl p-4 border border-slate-200 h-25 overflow-y-auto">
                                 <h3 className="font-black uppercase text-slate-400 text-[10px] tracking-widest mb-2 sticky top-0 bg-slate-100">Missed Questions ({quizCards.deck.length})</h3>
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                                     {quizCards.deck.map((c, i) => (
@@ -568,7 +580,7 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
 
             {/* Pause Overlay */}
             {isPausedInternal && (
-                <div className="absolute inset-0 z-[100] bg-slate-900/60 backdrop-blur-md flex flex-col items-center justify-center p-6 animate-fade-in">
+                <div className="absolute inset-0 z-100 bg-slate-900/60 backdrop-blur-md flex flex-col items-center justify-center p-6 animate-fade-in">
                     <div className="bg-white rounded-[3rem] p-8 md:p-12 max-w-sm w-full text-center shadow-2xl transform animate-scale-up">
                         <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
                             <svg className="w-10 h-10 text-indigo-600 ml-1" fill="currentColor" viewBox="0 0 24 24">

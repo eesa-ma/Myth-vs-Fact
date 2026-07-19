@@ -26,10 +26,10 @@ const SplashScreen = ({ onStart }) => {
                 </div>
 
                 <h1 className="text-5xl md:text-8xl font-black text-white uppercase tracking-tighter mb-4 drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] leading-none">
-                    Myth or <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-emerald-400">Fact?</span>
+                    Myth or <span className="text-transparent bg-clip-text bg-linear-to-r from-teal-300 to-emerald-400">Fact?</span>
                 </h1>
 
-                <div className="h-1 w-16 md:w-24 bg-gradient-to-r from-teal-500 to-indigo-500 mx-auto mb-6 md:mb-8 rounded-full shadow-[0_0_20px_rgba(20,184,166,0.6)]" />
+                <div className="h-1 w-16 md:w-24 bg-linear-to-r from-teal-500 to-indigo-500 mx-auto mb-6 md:mb-8 rounded-full shadow-[0_0_20px_rgba(20,184,166,0.6)]" />
 
                 <p className="text-teal-50 text-base md:text-xl mb-8 md:mb-12 max-w-md mx-auto leading-relaxed font-bold opacity-90 drop-shadow-md px-4">
                     Master the truth about mental health in this premium tabletop card sorting experience.
