@@ -249,20 +249,22 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
             <div className="absolute inset-0 opacity-10 pointer-events-none bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0id2hpdGUiIGZpbGwtb3BhY2l0eT0iMC4xIi8+PC9zdmc+')]"></div>
 
             {/* Top Bar */}
-            <div className="relative z-50 px-6 py-4 flex justify-between items-center bg-white/10 backdrop-blur-md border-b border-white/10 shadow-lg">
-                <button
-                    onClick={onExit}
-                    className="group flex items-center gap-2 px-6 py-3 min-h-11 rounded-full bg-red-500 hover:bg-red-600 transition-all border border-red-400 shadow-md transform hover:scale-105 active:scale-95"
-                >
-                    <span className="text-white text-xs font-bold uppercase tracking-widest">Exit</span>
-                </button>
+            <div className="relative z-50 px-3 py-3 md:px-6 md:py-4 flex justify-between items-center bg-white/10 backdrop-blur-md border-b border-white/10 shadow-lg">
+                <div className="flex-1 flex justify-start">
+                    <button
+                        onClick={onExit}
+                        className="group flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 min-h-10 md:min-h-11 rounded-full bg-red-500 hover:bg-red-600 transition-all border border-red-400 shadow-md transform hover:scale-105 active:scale-95"
+                    >
+                        <span className="text-white text-[10px] md:text-xs font-bold uppercase tracking-widest">Exit</span>
+                    </button>
+                </div>
 
-                <div className="flex flex-col items-center">
-                    <div className="relative px-4 py-2 bg-black/40 rounded-2xl border border-white/10 backdrop-blur-md flex flex-col items-center shadow-2xl">
-                        <span className="text-[8px] uppercase tracking-[0.2em] text-white/60 font-black mb-1">Time Remaining</span>
-                        <div className="flex items-center gap-2">
-                            <img src="/stickman_assets/clock_stickman.svg" className={`w-6 h-6 md:w-8 md:h-8 filter invert opacity-80 ${quizTimer < 10 ? 'animate-bounce-subtle' : ''}`} alt="Timer" />
-                            <span className={`text-xl md:text-3xl font-black font-mono tracking-wider ${quizTimer < 10 ? 'text-red-400 drop-shadow-[0_0_10px_rgba(248,113,113,0.5)] animate-pulse' : 'text-white drop-shadow-md'}`}>
+                <div className="flex-none flex flex-col items-center">
+                    <div className="relative px-3 py-1.5 md:px-4 md:py-2 bg-black/40 rounded-2xl border border-white/10 backdrop-blur-md flex flex-col items-center shadow-2xl">
+                        <span className="text-[7px] md:text-[8px] uppercase tracking-[0.2em] text-white/60 font-black mb-0.5 md:mb-1">Time Remaining</span>
+                        <div className="flex items-center gap-1 md:gap-2">
+                            <img src="/stickman_assets/clock_stickman.svg" className={`w-5 h-5 md:w-8 md:h-8 filter invert opacity-80 ${quizTimer < 10 ? 'animate-bounce-subtle' : ''}`} alt="Timer" />
+                            <span className={`text-lg md:text-3xl font-black font-mono tracking-wider ${quizTimer < 10 ? 'text-red-400 drop-shadow-[0_0_10px_rgba(248,113,113,0.5)] animate-pulse' : 'text-white drop-shadow-md'}`}>
                                 00:{quizTimer.toString().padStart(2, '0')}
                             </span>
                         </div>
@@ -270,7 +272,7 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                 </div>
 
                 {/*toggle fullscreen*/}
-                <div className="text-right flex items-center justify-end gap-2 md:gap-4 min-w-30">
+                <div className="flex-1 flex items-center justify-end gap-2 md:gap-4">
                     <button
                         onClick={toggleFullscreen}
                         className="p-3 rounded-full transition-all duration-300 flex items-center justify-center bg-white/20 hover:bg-white/30 border border-white/20 shadow-lg"
