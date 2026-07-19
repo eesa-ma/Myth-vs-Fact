@@ -1,6 +1,14 @@
 import React from 'react';
+import { requestFullscreen } from '../utils/fullscreen';
 
 const SplashScreen = ({ onStart }) => {
+    const handleStartClick = () => {
+        // Must be called directly within the synchronous user event handler 
+        // to comply with modern browser security policies for fullscreen requests.
+        requestFullscreen();
+        onStart();
+    };
+
     return (
         <div className="game-container min-h-screen w-full flex flex-col items-center justify-center font-sans relative overflow-hidden">
             {/* Table Surface Texture Overlay */}
@@ -28,7 +36,7 @@ const SplashScreen = ({ onStart }) => {
                 </p>
 
                 <button
-                    onClick={onStart}
+                    onClick={handleStartClick}
                     className="group relative px-8 py-4 md:px-12 md:py-5 bg-[#3d2b1f] text-white font-black uppercase tracking-[0.2em] rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.4)] border-b-8 border-[#2a1d15] hover:border-b-4 hover:translate-y-1 transition-all active:scale-95 overflow-hidden text-sm md:text-base"
                 >
                     <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
