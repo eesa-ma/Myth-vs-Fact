@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import SplashScreen from './pages/SplashScreen.jsx';
 import TutorialScreen from './pages/TutorialScreen.jsx';
+import LevelSelectScreen from './pages/LevelSelectScreen.jsx';
 import QuizGame from './QuizGame.jsx';
 import { audioManager } from './utils/audio.js';
 
 const App = () => {
   const [gameState, setGameState] = useState('SPLASH');
+  const [activeLevel, setActiveLevel] = useState(null);
 
   // Navigation handlers
   const handleStartTutorial = () => {
@@ -14,6 +16,11 @@ const App = () => {
   };
 
   const handleStartGame = () => {
+    setGameState('LEVEL_SELECT');
+  };
+
+  const handleLevelSelected = (level) => {
+    setActiveLevel(level);
     setGameState('PLAYING');
   };
 
@@ -22,7 +29,8 @@ const App = () => {
   };
 
   const handleExitGame = () => {
-    setGameState('SPLASH');
+    setActiveLevel(null);
+    setGameState('LEVEL_SELECT');
   };
 
   return (
@@ -38,9 +46,17 @@ const App = () => {
         />
       )}
 
-      {gameState === 'PLAYING' && (
+      {gameState === 'LEVEL_SELECT' && (
+        <LevelSelectScreen
+          onSelectLevel={handleLevelSelected}
+          onBack={handleBackToSplash}
+        />
+      )}
+
+      {gameState === 'PLAYING' && activeLevel && (
         <QuizGame
           audioManager={audioManager}
+          levelData={activeLevel}
           onExit={handleExitGame}
         />
       )}

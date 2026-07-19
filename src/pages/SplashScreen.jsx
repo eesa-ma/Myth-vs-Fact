@@ -1,6 +1,14 @@
 import React from 'react';
+import { requestFullscreen } from '../utils/fullscreen';
 
 const SplashScreen = ({ onStart }) => {
+    const handleStartClick = () => {
+        // Must be called directly within the synchronous user event handler 
+        // to comply with modern browser security policies for fullscreen requests.
+        requestFullscreen();
+        onStart();
+    };
+
     return (
         <div className="game-container min-h-screen w-full flex flex-col items-center justify-center font-sans relative overflow-hidden">
             {/* Table Surface Texture Overlay */}
@@ -18,17 +26,17 @@ const SplashScreen = ({ onStart }) => {
                 </div>
 
                 <h1 className="text-5xl md:text-8xl font-black text-white uppercase tracking-tighter mb-4 drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)] leading-none">
-                    Myth or <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-emerald-400">Fact?</span>
+                    Myth or <span className="text-transparent bg-clip-text bg-linear-to-r from-teal-300 to-emerald-400">Fact?</span>
                 </h1>
 
-                <div className="h-1 w-16 md:w-24 bg-gradient-to-r from-teal-500 to-indigo-500 mx-auto mb-6 md:mb-8 rounded-full shadow-[0_0_20px_rgba(20,184,166,0.6)]" />
+                <div className="h-1 w-16 md:w-24 bg-linear-to-r from-teal-500 to-indigo-500 mx-auto mb-6 md:mb-8 rounded-full shadow-[0_0_20px_rgba(20,184,166,0.6)]" />
 
                 <p className="text-teal-50 text-base md:text-xl mb-8 md:mb-12 max-w-md mx-auto leading-relaxed font-bold opacity-90 drop-shadow-md px-4">
                     Master the truth about mental health in this premium tabletop card sorting experience.
                 </p>
 
                 <button
-                    onClick={onStart}
+                    onClick={handleStartClick}
                     className="group relative px-8 py-4 md:px-12 md:py-5 bg-[#3d2b1f] text-white font-black uppercase tracking-[0.2em] rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.4)] border-b-8 border-[#2a1d15] hover:border-b-4 hover:translate-y-1 transition-all active:scale-95 overflow-hidden text-sm md:text-base"
                 >
                     <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
