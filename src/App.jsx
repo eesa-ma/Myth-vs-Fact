@@ -42,6 +42,10 @@ const App = () => {
     });
   };
 
+  const handleResetGame = () => {
+    setGlobalCorrectIds(new Set());
+  };
+
   return (
     <div className="game-wrapper min-h-screen w-full bg-slate-900">
       {gameState === 'SPLASH' && (
@@ -60,6 +64,7 @@ const App = () => {
           onSelectLevel={handleLevelSelected}
           onBack={handleBackToSplash}
           globalCorrectIds={globalCorrectIds}
+          onResetGame={handleResetGame}
         />
       )}
 

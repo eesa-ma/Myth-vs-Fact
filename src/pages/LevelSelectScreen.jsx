@@ -2,7 +2,7 @@ import React from 'react';
 import { QUIZ_LEVELS } from '../data/quizData';
 import { toggleFullscreen } from '../utils/fullscreen';
 
-const LevelSelectScreen = ({ onSelectLevel, onBack }) => {
+const LevelSelectScreen = ({ onSelectLevel, onBack, globalCorrectIds = new Set(), onResetGame }) => {
     return (
         <div className="game-container min-h-screen w-full flex flex-col items-center justify-center font-sans p-4 md:p-6 relative overflow-hidden bg-slate-900">
              {/* Table Surface Texture Overlay */}
@@ -58,6 +58,21 @@ const LevelSelectScreen = ({ onSelectLevel, onBack }) => {
                         </button>
                     ))}
                 </div>
+
+                {globalCorrectIds.size > 0 && (
+                    <div className="mt-8 md:mt-12 text-center">
+                        <button
+                            onClick={() => {
+                                if (window.confirm("Are you sure you want to reset all your progress?")) {
+                                    if (onResetGame) onResetGame();
+                                }
+                            }}
+                            className="text-white/50 hover:text-red-400 text-[10px] md:text-xs font-bold uppercase tracking-widest transition-colors underline decoration-white/20 hover:decoration-red-400/50 underline-offset-4"
+                        >
+                            Reset Game Progress
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );

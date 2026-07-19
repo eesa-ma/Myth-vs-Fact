@@ -564,12 +564,17 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy',
                             </p>
                         </div>
                         <div className="flex gap-3 quiz-end-actions">
-                            <button
-                                onClick={restartQuiz}
-                                className="px-5 py-3 min-h-11 bg-white text-indigo-600 border-2 border-indigo-100 rounded-full font-bold uppercase tracking-widest hover:bg-indigo-50 transition-all active:scale-95 flex items-center gap-2 text-[10px] md:text-xs shadow-sm"
-                            >
-                                <span className="text-base">↺</span> Restart
-                            </button>
+                            {(() => {
+                                const targetGoal = levelData.id === 1 ? 13 : levelData.id === 2 ? 26 : 36;
+                                return globalCorrectIds.size < targetGoal;
+                            })() && (
+                                <button
+                                    onClick={restartQuiz}
+                                    className="px-5 py-3 min-h-11 bg-white text-indigo-600 border-2 border-indigo-100 rounded-full font-bold uppercase tracking-widest hover:bg-indigo-50 transition-all active:scale-95 flex items-center gap-2 text-[10px] md:text-xs shadow-sm"
+                                >
+                                    <span className="text-base">↺</span> Restart
+                                </button>
+                            )}
                             <button
                                 onClick={onExit}
                                 className="px-6 py-3 min-h-11 bg-slate-900 text-white rounded-full font-bold uppercase tracking-widest hover:bg-slate-800 transition-all active:scale-95 flex items-center gap-2 text-[10px] md:text-xs shadow-md hover:shadow-lg"
