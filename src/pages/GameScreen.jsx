@@ -49,7 +49,7 @@ const GameScreen = ({
             <div className="flex-1 flex flex-col items-center justify-center p-6 relative">
                 {/* Background Decor */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-5">
-                    <img src="/stickman_assets/thinking_stickman.svg" className="w-[500px] h-[500px]" alt="" />
+                    <img src="/stickman_assets/thinking_stickman.svg" className="w-125 h-125" alt="" />
                 </div>
 
                 {/* Combo Badge */}
@@ -62,7 +62,7 @@ const GameScreen = ({
                 )}
 
                 {/* The Card Container */}
-                <div className="relative w-full max-w-sm aspect-[3/4] perspective-1000">
+                <div className="relative w-full max-w-sm aspect-3/4 perspective-1000">
                     {/* Placeholder for Swipeable Card logic */}
                     <div className="w-full h-full bg-white rounded-[2.5rem] shadow-2xl p-8 flex flex-col items-center justify-center text-center relative overflow-hidden border-4 border-slate-100">
                          {/* Card Watermark */}

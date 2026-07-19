@@ -1,4 +1,5 @@
 import React from 'react';
+import { toggleFullscreen } from '../utils/fullscreen';
 
 const TutorialScreen = ({ onStartGame, onBack }) => {
     return (
@@ -6,8 +7,21 @@ const TutorialScreen = ({ onStartGame, onBack }) => {
              {/* Table Surface Texture Overlay */}
              <div className="absolute inset-0 opacity-10 pointer-events-none bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0id2hpdGUiIGZpbGwtb3BhY2l0eT0iMC4xIi8+PC9zdmc+')]"></div>
 
-            <div className="relative z-10 max-w-4xl w-full bg-[#3d2b1f] border-b-4 md:border-b-8 border-r-4 md:border-r-8 border-[#2a1d15] rounded-[2rem] md:rounded-[3rem] p-6 md:p-12 shadow-[inset_0_10px_20px_rgba(0,0,0,0.5),0_30px_60px_rgba(0,0,0,0.4)] animate-scale-in">
-                <div className="text-center mb-8 md:mb-12">
+            <div className="relative z-10 max-w-4xl w-full bg-[#3d2b1f] border-b-4 md:border-b-8 border-r-4 md:border-r-8 border-[#2a1d15] rounded-4xl md:rounded-[3rem] p-6 md:p-12 shadow-[inset_0_10px_20px_rgba(0,0,0,0.5),0_30px_60px_rgba(0,0,0,0.4)] animate-scale-in">
+                
+                <div className="absolute top-6 right-6 md:top-8 md:right-8">
+                    <button 
+                        onClick={toggleFullscreen}
+                        className="w-10 h-10 md:w-12 md:h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-all transform hover:scale-110 shadow-lg border border-white/10"
+                        title="Toggle Fullscreen"
+                    >
+                        <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div className="text-center mb-8 md:mb-12 mt-4 md:mt-0">
                     <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tight mb-2 drop-shadow-md">Table Rules</h2>
                     <p className="text-teal-400 font-bold uppercase tracking-widest text-[10px] md:text-xs">Master the Art of Sorting Truths</p>
                 </div>
