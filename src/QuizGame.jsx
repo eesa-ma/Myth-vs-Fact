@@ -243,7 +243,14 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
     const isDeckEmpty = quizCards.deck.length === 0;
 
     return (
-        <div className="game-container min-h-screen w-full bg-linear-to-br from-indigo-600 via-purple-700 to-indigo-900 flex flex-col relative overflow-hidden font-sans">
+        <div 
+            className="game-container min-h-screen w-full bg-linear-to-br from-indigo-600 via-purple-700 to-indigo-900 flex flex-col relative overflow-hidden font-sans select-none"
+            onMouseMove={handleCardDragMove}
+            onTouchMove={handleCardDragMove}
+            onMouseUp={handleCardDragEnd}
+            onTouchEnd={handleCardDragEnd}
+            onMouseLeave={handleCardDragEnd}
+        >
 
             {/* Table Surface Texture */}
             <div className="absolute inset-0 opacity-10 pointer-events-none bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0id2hpdGUiIGZpbGwtb3BhY2l0eT0iMC4xIi8+PC9zdmc+')]"></div>
@@ -439,8 +446,8 @@ const QuizGameScreen = ({ audioManager, onExit, levelData, playerGender = 'guy' 
                                 <div className="absolute top-0 w-full h-32 bg-linear-to-b from-indigo-50 to-transparent pointer-events-none" />
                                 <div className="absolute bottom-0 w-full h-32 bg-linear-to-t from-purple-50 to-transparent pointer-events-none" />
 
-                                <div className="relative z-10 w-32 h-32 bg-indigo-50 rounded-full flex items-center justify-center mb-6 shadow-inner border border-indigo-100 group-hover:bg-indigo-100 transition-colors quiz-card-icon">
-                                    <img src="/stickman_assets/thinking_stickman.svg" className="w-24 h-24 drop-shadow-sm" alt="Thinking" />
+                                <div className="relative z-10 w-32 h-32 bg-indigo-50 rounded-full flex items-center justify-center mb-6 shadow-inner border border-indigo-100 group-hover:bg-indigo-100 transition-colors quiz-card-icon pointer-events-none">
+                                    <img src="/stickman_assets/thinking_stickman.svg" className="w-24 h-24 drop-shadow-sm pointer-events-none" draggable="false" alt="Thinking" />
                                 </div>
                                 <h3 className="relative z-10 text-xl md:text-2xl font-black text-slate-800 leading-tight pointer-events-none select-none px-2 quiz-card-text">
                                     {topDeckCard.question}
